@@ -40,4 +40,10 @@ h4 {
     font-size: $text-xs;
     line-height: 15px;
   }
+
+  &--highlight {
+    font-weight: $bold;
+    font-size: $text-md;
+    line-height: 19px;
+  }
 }

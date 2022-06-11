@@ -9,5 +9,5 @@ export const LightTheme: {[key: string]: string} = {
   '--bg-danger': 'rgb(234, 85, 85)',
   '--bg-danger-hover': 'rgb(255, 152, 152)',
   '--bg-primary-box': 'rgb(255, 255, 255)',
-  '--clr-border': 'rgb(228, 235, 250)'
+  '--clr-border': 'rgb(228, 235, 250)',
 }
