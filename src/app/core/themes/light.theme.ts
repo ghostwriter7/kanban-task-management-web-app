@@ -1,6 +1,6 @@
 export const LightTheme: {[key: string]: string} = {
   '--body-bg': 'rgb(255, 255, 255)',
-  '--text-primary': 'rgb(255, 255, 255)',
+  '--text-primary': 'rgb(0, 1, 18)',
   '--text-secondary': 'rgb(99, 95, 195)',
   '--bg-primary': 'rgb(99, 95, 195)',
   '--bg-primary-hover': 'rgb(168, 164, 255)',
