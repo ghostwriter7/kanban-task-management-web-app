@@ -3,14 +3,20 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Theme} from '../../enums';
 import * as fromApp from '../app.reducer';
-import {selectTheme} from './layout.selector';
+import {selectSidenavState, selectTheme} from './layout.selector';
+import * as layoutActions from './layout.actions';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LayoutFacade {
+export class LayoutStoreFacade {
+  getIsSidenavClosed$: Observable<boolean> = this.store.pipe(select(selectSidenavState));
   getTheme$: Observable<Theme> = this.store.pipe(select(selectTheme));
 
   constructor(private store: Store<fromApp.State>) {
+  }
+
+  toggleSidenav(): void {
+    this.store.dispatch(layoutActions.toggleTheme());
   }
 }

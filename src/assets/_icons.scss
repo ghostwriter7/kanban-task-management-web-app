@@ -1,0 +1,59 @@
+.icon {
+  display: inline-block;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+
+  &--add {
+    background: url("./icons/icon-add-task-mobile.svg");
+    width: 8px;
+    height: 8px;
+  }
+
+  &--dots {
+    background: url("./icons/icon-vertical-ellipsis.svg");
+    width: 5px;
+    height: 20px;
+  }
+
+  &--logo-dark {
+    background: url("./icons/logo-light.svg");
+    width: 153px;
+    height: 26px;
+  }
+
+  &--logo-light {
+    background: url("./icons/logo-dark.svg");
+    width: 153px;
+    height: 26px;
+  }
+
+  &--board {
+    background: url("./icons/icon-board.svg");
+    width: 16px;
+    height: 16px;
+  }
+
+  &--hide {
+    background: url("./icons/icon-hide-sidebar.svg");
+    width: 18px;
+    height: 16px;
+  }
+
+  &--show {
+    background: url("./icons/icon-show-sidebar.svg");
+    width: 16px;
+    height: 11px;
+  }
+
+  &--sun {
+    background: url("./icons/icon-light-theme.svg");
+    width: 19px;
+    height: 19px;
+  }
+
+  &--moon {
+    background: url("./icons/icon-dark-theme.svg");
+    width: 16px;
+    height: 16px;
+  }
+}

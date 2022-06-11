@@ -11,12 +11,18 @@
     </ul>
   </div>
   <div class="sidebar__actions">
-      <div class="sidebar__theme-toggle">
-        toggle theme here
-      </div>
-      <div class="sidebar__sidebar-toggle" (click)="toggleSidenav()">
-        <h4 class="sidebar__hide-button"><i class="icon icon--hide"></i> Hide Sidenav</h4>
-      </div>
+    <div class="sidebar__theme-toggle">
+      <i class="icon icon--sun"></i>
+      <label class="toggle" *ngIf="currentTheme$ | async as theme">
+        <input type="checkbox" (change)="onToggleTheme()" [checked]="theme === 'Dark'">
+        <span></span>
+      </label>
+      <i class="icon icon--moon"></i>
+
+    </div>
+    <div class="sidebar__sidebar-toggle" (click)="toggleSidenav()">
+      <h4 class="sidebar__hide-button"><i class="icon icon--hide"></i> Hide Sidenav</h4>
+    </div>
   </div>
 </div>
 

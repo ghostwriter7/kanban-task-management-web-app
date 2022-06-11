@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&display=swap');
 
+* {
+  box-sizing: border-box;
+}
+
 :root {
 --clr-light: rgb(255,255,255);
---body-bg: rgb(255, 255, 255);
+--body-bg: rgb(228, 235, 250);
 --text-primary: rgb(244, 247, 253);
 --text-secondary: rgb(99, 95, 195);
 --bg-primary: rgb(99, 95, 195);
@@ -12,13 +16,17 @@
 --bg-danger: rgb(234, 85, 85);
 --bg-danger-hover: rgb(255, 152, 152);
 --bg-primary-box: rgb(244, 247, 253);
+--clr-border: rgb(228, 235, 250);
 }
 
 @import "./assets/font-size";
 @import "./assets/button";
 @import "./assets/typography";
+@import "./assets/icons";
+@import "./assets/toggle";
 
 body {
   font-family: 'Plus Jakarta S', sans-serif;
   background: var(--body-bg);
+  margin: 0;
 }

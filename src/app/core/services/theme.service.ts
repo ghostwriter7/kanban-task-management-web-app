@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
+import {Store} from '@ngrx/store';
 import {Theme} from '../enums';
 import {DarkTheme, LightTheme} from '../themes';
 import {StorageService} from './storage.service';
+import * as fromApp from '../store/app.reducer';
+import * as layoutActions from '../store/layout/layout.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,9 @@ export class ThemeService {
   private activeTheme: Theme = Theme.Light;
   private storageKey = 'favoriteTheme';
 
-  constructor(private storageService: StorageService) {
+  constructor(
+    private storageService: StorageService,
+    private store: Store<fromApp.State>) {
   }
 
   initTheme(): void {
@@ -22,7 +27,6 @@ export class ThemeService {
     const favoriteTheme = this.storageService.get(this.storageKey) as Theme;
     if (favoriteTheme) {
       this.activeTheme = favoriteTheme;
-      this.applyTheme();
     }
   }
 
@@ -33,6 +37,7 @@ export class ThemeService {
   }
 
   private applyTheme(): void {
+    this.store.dispatch(layoutActions.setTheme({theme: this.activeTheme}));
     const root = document.documentElement;
     const currentTheme = this.activeTheme === Theme.Light ? LightTheme : DarkTheme;
     Object.keys(currentTheme).forEach(key => {
