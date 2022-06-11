@@ -1,9 +1,10 @@
 <div class="navbar">
-  <ng-container *ngIf="currentTheme$ | async as theme">
-    <i class="icon icon--logo-{{ theme === 'Dark' ? 'dark' : 'light'  }}"></i>
-  </ng-container>
-  <div class="navbar__actions">
-    <button class="button button--primary button--large"><i class="icon icon--add"></i> Add New Task</button>
-    <i class="icon icon--dots"></i>
+  <i *ngIf="currentTheme$ | async as theme" class="navbar__logo icon icon--logo-{{ theme === 'Dark' ? 'dark' : 'light'  }}"></i>
+  <div class="navbar__main">
+    <h1>#Board name</h1>
+    <div class="navbar__actions">
+      <button class="button button--primary button--large"><i class="icon icon--add"></i> Add New Task</button>
+      <i class="icon icon--dots"></i>
+    </div>
   </div>
 </div>

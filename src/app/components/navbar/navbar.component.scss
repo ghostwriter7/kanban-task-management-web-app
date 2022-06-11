@@ -1,13 +1,28 @@
 .navbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding-left: 28px;
+  gap: 1rem;
   background: var(--bg-primary-box);
-  padding: 20px 38px 28px;
+
+  &__logo {
+    flex-basis: 300px;
+  }
+
+  &__main {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    border: 0px solid var(--clr-border);
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    padding: 20px 38px 28px;
+  }
 
   &__actions {
     display: flex;
     align-items: center;
-    margin-left: auto;
     gap: 1rem;
   }
 }
