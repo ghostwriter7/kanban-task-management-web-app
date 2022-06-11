@@ -1,5 +1,8 @@
 <div class="navbar">
-  <i *ngIf="currentTheme$ | async as theme" class="navbar__logo icon icon--logo-{{ theme === 'Dark' ? 'dark' : 'light'  }}"></i>
+  <i *ngIf="currentTheme$ | async as theme"
+     class="navbar__logo icon icon--logo-{{ theme === 'Dark' ? 'dark' : 'light'  }}"
+     [class.navbar__logo--short]="isSidenavClosed$ | async">
+  </i>
   <div class="navbar__main">
     <h1>#Board name</h1>
     <div class="navbar__actions">

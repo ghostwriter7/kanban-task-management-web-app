@@ -1,0 +1,41 @@
+.sidebar {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-primary-box);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 300px;
+  height: calc(100vh - 115px);
+  border: 0 solid var(--clr-border);
+  border-right-width: 1px;
+  padding: 15px 24px;
+  transition: transform .4s;
+  transform: translateX(0px);
+
+  &--hidden {
+    transform: translateX(-300px);
+  }
+
+  &__hide-button {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+  }
+
+  &__show-button {
+    position: absolute;
+    bottom: 32px;
+    z-index: 0;
+    left: 0;
+    cursor: pointer;
+    background-color: var(--bg-primary);
+    width: 56px;
+    height: 48px;
+    background-size: initial !important;
+    background-position: center;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0 100px 100px 0;
+  }
+}

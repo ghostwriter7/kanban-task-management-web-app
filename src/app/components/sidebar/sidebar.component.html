@@ -1,0 +1,23 @@
+<div class="sidebar" [class.sidebar--hidden]="isSidenavClosed$ | async">
+  <div class="sidebar__main">
+    <h4>ALL BOARDS (8)</h4>
+    <ul class="sidebar__boards">
+      <li class="sidebar__board" *ngFor="let board of boards">
+        <i class="icon icon--board"></i> {{ board.name }}
+      </li>
+      <li class="sidebar__board--add-new">
+        <i class="icon icon--board"></i> <i class="icon icon--add"></i> Create New Board
+      </li>
+    </ul>
+  </div>
+  <div class="sidebar__actions">
+      <div class="sidebar__theme-toggle">
+        toggle theme here
+      </div>
+      <div class="sidebar__sidebar-toggle" (click)="toggleSidenav()">
+        <h4 class="sidebar__hide-button"><i class="icon icon--hide"></i> Hide Sidenav</h4>
+      </div>
+  </div>
+</div>
+
+<i class="sidebar__show-button icon icon--show" (click)="toggleSidenav()"></i>

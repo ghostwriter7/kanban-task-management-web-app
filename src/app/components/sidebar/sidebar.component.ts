@@ -1,22 +1,27 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Theme} from '../../core/enums';
 import {LayoutStoreFacade} from '../../core/store/layout/layout-store.facade';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavbarComponent implements OnInit {
-  currentTheme$: Observable<Theme> = this.layoutStoreFacade.getTheme$;
+export class SidebarComponent implements OnInit {
+  boards: { name: string }[] = [
+    { name: 'Platform Launch'},
+    { name: 'Marketing Plan'},
+    { name: 'Roadmap'}
+  ];
   isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.getIsSidenavClosed$;
 
   constructor(private layoutStoreFacade: LayoutStoreFacade) { }
 
   ngOnInit(): void {
-
   }
 
+  toggleSidenav(): void {
+    this.layoutStoreFacade.toggleSidenav();
+  }
 }
