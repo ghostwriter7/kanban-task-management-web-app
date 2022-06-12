@@ -2,7 +2,11 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Theme} from '../../core/enums';
 import {ThemeService} from '../../core/services';
+import {ModalService} from '../../core/services/modal.service';
 import {LayoutStoreFacade} from '../../core/store/layout/layout-store.facade';
+import {
+  AddEditBoardDialogComponent
+} from '../../pages/boards/components/add-edit-board-dialog/add-edit-board-dialog.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,9 +25,14 @@ export class SidebarComponent implements OnInit {
 
 
   constructor(private layoutStoreFacade: LayoutStoreFacade,
+              private modalService: ModalService,
               private themeService: ThemeService) { }
 
   ngOnInit(): void {
+  }
+
+  onAddNewBoard(): void {
+    this.modalService.open(AddEditBoardDialogComponent);
   }
 
   onToggleTheme(): void {
