@@ -1,1 +1,30 @@
-<p>add-edit-task-dialog works!</p>
+<app-modal>
+  <h2>{{ mode === 'ADD' ? 'Add New' : 'Edit' }} Task</h2>
+  <form class="form">
+    <div class="form__control">
+      <label class="form__label">Title</label>
+      <input type="text" class="form__input" placeholder="e.g. Take coffee break">
+    </div>
+    <div class="form__control">
+      <label class="form__label">Description</label>
+      <textarea class="form__input" placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little"></textarea>
+    </div>
+    <div class="form__control">
+      <label class="form__label">Subtasks</label>
+      <div class="form__array-item">
+        <input type="text" class="form__input" placeholder="e.g. Make coffee">
+        <button class="icon icon--times"></button>
+      </div>
+      <button class="button button--secondary" type="button">
+        <i class="icon icon--add icon--primary-clr"></i>
+        Add New Subtask
+      </button>
+    </div>
+    <div class="form__control">
+      <label class="form__label">Status</label>
+      <select>
+        <option value="Todo"></option>
+      </select>
+    </div>
+  </form>
+</app-modal>

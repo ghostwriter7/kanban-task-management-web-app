@@ -1,0 +1,25 @@
+.overlay {
+  position: absolute;
+  z-index: 100;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background-color: var(--bg-primary-box);
+  padding: 32px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  position: relative;
+
+  &__close-btn {
+    position: absolute;
+    right: 32px;
+    cursor: pointer;
+  }
+}

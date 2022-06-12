@@ -1,0 +1,12 @@
+.board {
+  &__title {
+    margin-block: 0 24px;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 12px;
+  }
+}
