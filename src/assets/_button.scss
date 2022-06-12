@@ -1,5 +1,16 @@
 @import "./font-size";
 
+button {
+  outline: none;
+  border: 0;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: .3;
+    pointer-events: none;
+  }
+}
+
 .button {
   padding: 8px 70px;
   color: var(--clr-light);

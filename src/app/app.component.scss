@@ -1,0 +1,10 @@
+.container {
+  width: calc(100vw - 300px);
+  margin-left: auto;
+  transition: width 0.4s;
+  padding: 24px;
+
+  &--expanded {
+    width: 100vw;
+  }
+}

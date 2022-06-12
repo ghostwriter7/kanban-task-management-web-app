@@ -1,2 +1,7 @@
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
+<main class="container" [class.container--expanded]="isExpanded$ | async">
+  <router-outlet></router-outlet>
+</main>
+
+<ng-template placeholder></ng-template>
