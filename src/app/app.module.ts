@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
-import {AngularFireMessaging} from '@angular/fire/compat/messaging';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
@@ -13,6 +13,7 @@ import * as fromApp from './core/store/app.reducer';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import {BoardsEffects} from './pages/boards/core/store/boards.effects';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
   imports: [
     BrowserModule,
     StoreModule.forRoot(fromApp.reducer),
+    EffectsModule.forRoot([BoardsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     AppRoutingModule,
     FormsModule,

@@ -2,9 +2,11 @@
   <div class="sidebar__main">
     <h4>ALL BOARDS (8)</h4>
     <ul class="sidebar__boards">
-      <li class="sidebar__board" [class.sidebar__board--active]="first" *ngFor="let board of boards;let first = first">
-        <i class="icon icon--board" ></i> <span class="text--highlight">{{ board.name }}</span>
-      </li>
+      <ng-container *ngIf="boards$ | async as boards">
+        <li class="sidebar__board" *ngFor="let board of boards; let first = first" [class.sidebar__board--active]="first">
+          <i class="icon icon--board"></i> <span class="text--highlight">{{ board.name }}</span>
+        </li>
+      </ng-container>
       <li class="sidebar__board sidebar__board--add-new" (click)="onAddNewBoard()">
         <i class="icon icon--board icon--primary-clr"></i> <span class="text--highlight"><i class="icon icon--add icon--primary-clr"></i> Create New Board</span>
       </li>

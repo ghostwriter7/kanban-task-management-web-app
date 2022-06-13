@@ -13,4 +13,4 @@ export const reducer: ActionReducerMap<State> = {
 };
 
 export const selectLayout = (state: State) => state.layout;
-export const selectBoards = (state: State) => state.boards;
+export const selectBoard = (state: State) => state.boards;

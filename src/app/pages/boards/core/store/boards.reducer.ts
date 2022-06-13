@@ -13,5 +13,6 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(boardActions.addNewBoard, (state, action) => ({ ...state, boards: [...state.boards, action.board] }))
+  on(boardActions.addNewBoardSuccess, (state, action) => ({ ...state, boards: [...state.boards, action.board] })),
+  on(boardActions.loadBoardsSuccess, (state, action) => ({ ...state, boards: [...state.boards, ...action.boards]}))
 );
