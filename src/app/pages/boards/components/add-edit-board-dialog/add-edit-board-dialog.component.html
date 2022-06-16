@@ -16,7 +16,9 @@
       <button class="button button--secondary" type="button" (click)="onAddNewColumn()"><i
         class="icon icon--add icon--primary-clr"></i> Add New Column
       </button>
-      <button class="button button--primary" type="submit">Create New Board</button>
+      <button [disabled]="isSavingBoard$ | async" class="button button--primary" type="submit">
+        Create New Board
+      </button>
     </div>
   </form>
 </app-modal>

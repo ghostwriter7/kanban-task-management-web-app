@@ -1,1 +1,20 @@
-<p>Board works!!</p>
+<div class="board">
+  <ng-container *ngIf="columns$ | async as columns;">
+    <ng-template
+      [ngTemplateOutletContext]="{ $implicit: columns }"
+      [ngTemplateOutlet]="columns.length ? columnsWrapper : emptyBoard"></ng-template>
+  </ng-container>
+</div>
+
+<ng-template #columnsWrapper let-columns>
+  <div class="board__columns">
+    <app-column *ngFor="let column of columns" [column]="column"></app-column>
+  </div>
+</ng-template>
+
+<ng-template #emptyBoard>
+  <div class="board__empty">
+    <h4>This board is empty. Create a new column to get started</h4>
+    <app-add-button label="Add New Column"></app-add-button>
+  </div>
+</ng-template>

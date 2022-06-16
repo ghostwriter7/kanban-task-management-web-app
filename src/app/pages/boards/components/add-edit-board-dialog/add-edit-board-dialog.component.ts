@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Observable} from 'rxjs';
 import {DialogMode} from '../../../../core/enums';
 import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
 
@@ -11,6 +12,7 @@ import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
 })
 export class AddEditBoardDialogComponent implements OnInit {
   form!: FormGroup;
+  isSavingBoard$: Observable<boolean> = this.boardStoreFacade.isSavingBoard$;
   mode: DialogMode = DialogMode.Add;
 
   get columns() {
@@ -38,6 +40,7 @@ export class AddEditBoardDialogComponent implements OnInit {
 
   onSubmit(): void {
     const board = this.form.value;
+    board.columns = board.columns.filter(Boolean);
     this.boardStoreFacade.addNewBoard(board);
   }
 

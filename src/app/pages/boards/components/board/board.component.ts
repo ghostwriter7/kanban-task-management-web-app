@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Observable} from 'rxjs';
+import {Column} from '../../core/interfaces';
+import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
 
 @Component({
   selector: 'app-board',
@@ -6,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
+  columns$: Observable<Column[]> = this.boardStoreFacade.currentColumns$;
 
-  constructor() { }
+  constructor(private boardStoreFacade: BoardsStoreFacade) { }
 
   ngOnInit(): void {
   }

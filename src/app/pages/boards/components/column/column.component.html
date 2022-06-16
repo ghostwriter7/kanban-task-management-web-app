@@ -1,0 +1,9 @@
+<div class="column">
+  <div class="column__header">
+    <span class="column__indicator" [style.background-color]="color"></span>
+    <h4>{{column}}  ({{mockupTasks.length}})</h4>
+  </div>
+  <div class="column__body">
+    <app-task *ngFor="let task of mockupTasks" [task]="task"></app-task>
+  </div>
+</div>
