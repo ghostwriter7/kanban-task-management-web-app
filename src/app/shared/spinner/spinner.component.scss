@@ -1,42 +1,14 @@
-.overlay {
-  position: absolute;
-  z-index: 100;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0,0,0,.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal {
-  background-color: var(--bg-primary-box);
-  padding: 32px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 6px;
-  position: relative;
-
-  &__close-btn {
-    position: absolute;
-    right: 32px;
-    cursor: pointer;
-  }
-}
-
 .lds-spinner {
   color: var(--clr-light);
+  display: inline-block;
   position: absolute;
-  width: 100%;
-  height: 100%;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(1px);
+  width: 80px;
+  height: 80px;
+
 }
 
 .lds-spinner div {
+  transform-origin: 40px 40px;
   animation: lds-spinner 1.2s linear infinite;
 }
 .lds-spinner div:after {
