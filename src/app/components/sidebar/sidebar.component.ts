@@ -19,6 +19,7 @@ import {BoardsStoreFacade} from '../../pages/boards/core/store/boards-store.faca
 })
 export class SidebarComponent implements OnInit {
   boards$: Observable<Board[]> = this.boardsStoreFacade.boards$;
+  currentBoardIndex$: Observable<number> = this.boardsStoreFacade.currentBoardIndex$;
   currentTheme$: Observable<Theme> = this.layoutStoreFacade.getTheme$;
   isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.getIsSidenavClosed$;
   numberOfBoards$: Observable<number> = this.boardsStoreFacade.numberOfBoards$;
@@ -40,6 +41,10 @@ export class SidebarComponent implements OnInit {
     this.modalService.open(AddEditBoardDialogComponent);
   }
 
+  onSelectBoard(board: Board) {
+      this.boardsStoreFacade.selectBoard(board);
+  }
+
   onToggleTheme(): void {
     this.themeService.toggleTheme();
   }
@@ -47,4 +52,5 @@ export class SidebarComponent implements OnInit {
   toggleSidenav(): void {
     this.layoutStoreFacade.toggleSidenav();
   }
+
 }

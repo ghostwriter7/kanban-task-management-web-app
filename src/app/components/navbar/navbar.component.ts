@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
               private modalService: ModalService) { }
 
   ngOnInit(): void {
-    this.onAddNewTask();
+    // this.onAddNewTask();
   }
 
   onAddNewTask(): void {
