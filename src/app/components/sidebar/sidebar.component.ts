@@ -8,6 +8,7 @@ import {LayoutStoreFacade} from '../../core/store/layout/layout-store.facade';
 import {
   AddEditBoardDialogComponent
 } from '../../pages/boards/components/add-edit-board-dialog/add-edit-board-dialog.component';
+import {Board} from '../../pages/boards/core/interfaces';
 import {BoardsStoreFacade} from '../../pages/boards/core/store/boards-store.facade';
 
 @Component({
@@ -17,9 +18,10 @@ import {BoardsStoreFacade} from '../../pages/boards/core/store/boards-store.faca
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent implements OnInit {
-  boards$!: Observable<any>;
+  boards$: Observable<Board[]> = this.boardsStoreFacade.boards$;
   currentTheme$: Observable<Theme> = this.layoutStoreFacade.getTheme$;
   isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.getIsSidenavClosed$;
+  numberOfBoards$: Observable<number> = this.boardsStoreFacade.numberOfBoards$;
 
 
   constructor(
@@ -32,7 +34,6 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.boardsStoreFacade.loadBoards();
-    this.boards$ = this.boardsStoreFacade.boards$;
   }
 
   onAddNewBoard(): void {

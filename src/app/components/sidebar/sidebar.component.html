@@ -1,6 +1,6 @@
 <div class="sidebar" [class.sidebar--hidden]="isSidenavClosed$ | async">
   <div class="sidebar__main">
-    <h4>ALL BOARDS (8)</h4>
+    <h4>ALL BOARDS ({{ numberOfBoards$ | async}})</h4>
     <ul class="sidebar__boards">
       <ng-container *ngIf="boards$ | async as boards">
         <li class="sidebar__board" *ngFor="let board of boards; let first = first" [class.sidebar__board--active]="first">
