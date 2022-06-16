@@ -4,10 +4,18 @@
      [class.navbar__logo--short]="isSidenavClosed$ | async">
   </i>
   <div class="navbar__main">
-    <h1>#Board name</h1>
+    <ng-container *ngIf="currentBoard$ | async as board; else noBoardSelected">
+      <h1>{{ board ? board.name : 'Select your board' }}</h1>
+    </ng-container>
     <div class="navbar__actions">
-      <button (click)="onAddNewTask()" class="button button--primary button--large"><i class="icon icon--add"></i> Add New Task</button>
+      <button (click)="onAddNewTask()" class="button button--primary button--large"><i class="icon icon--add"></i> Add
+        New Task
+      </button>
       <i class="icon icon--dots"></i>
     </div>
   </div>
 </div>
+
+<ng-template #noBoardSelected>
+  <h1>Select your board!</h1>
+</ng-template>
