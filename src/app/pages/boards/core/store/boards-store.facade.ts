@@ -28,6 +28,10 @@ export class BoardsStoreFacade {
     this.store.dispatch(boardActions.addNewBoard({ board }));
   }
 
+  deleteBoard(): void {
+    this.store.dispatch(boardActions.deleteBoard());
+  }
+
   loadBoards(): void {
     this.store.dispatch(boardActions.loadBoards());
   }

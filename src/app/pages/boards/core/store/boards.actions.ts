@@ -5,6 +5,8 @@ export const addNewBoard = createAction('[Board Page] Add New Board', props<{ bo
 export const addNewBoardSuccess = createAction('[Board API] Add New Board Success', props<{ board: any }>());
 export const addNewBoardFailure = createAction('[Board API] Add New Board Failure', props<{error: any}>());
 
+export const deleteBoard = createAction('[Context Menu] Delete Board');
+
 export const loadBoard = createAction('[Board Page] Load Board', props<{ boardId: number }>());
 
 export const loadBoards = createAction('[Board Page] Load Boards');

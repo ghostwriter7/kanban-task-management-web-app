@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {map, Observable} from 'rxjs';
 import {Theme} from '../../core/enums';
+import {ContextMenu} from '../../core/interfaces';
 import {ModalService} from '../../core/services/modal.service';
 import {LayoutStoreFacade} from '../../core/store/layout/layout-store.facade';
 import {
@@ -16,6 +17,10 @@ import {BoardsStoreFacade} from '../../pages/boards/core/store/boards-store.faca
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent implements OnInit {
+  contextMenu: ContextMenu[] = [
+    {label: 'Edit Board', action: this.onEditBoard.bind(this)},
+    {label: 'Delete Board', action: this.onDeleteBoard.bind(this), danger: true}
+  ];
   currentBoard$: Observable<Board | undefined> = this.boardsStoreFacade.currentBoard$;
   currentTheme$: Observable<Theme> = this.layoutStoreFacade.getTheme$;
   disabled$: Observable<boolean> = this.boardsStoreFacade.currentBoard$.pipe(map(board => !board));
@@ -24,7 +29,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     private boardsStoreFacade: BoardsStoreFacade,
     private layoutStoreFacade: LayoutStoreFacade,
-              private modalService: ModalService) { }
+    private modalService: ModalService) {
+  }
 
   ngOnInit(): void {
     // this.onAddNewTask();
@@ -32,5 +38,13 @@ export class NavbarComponent implements OnInit {
 
   onAddNewTask(): void {
     this.modalService.open(AddEditTaskDialogComponent);
+  }
+
+  onDeleteBoard(): void {
+      this.boardsStoreFacade.deleteBoard();
+  }
+
+  onEditBoard(): void {
+
   }
 }

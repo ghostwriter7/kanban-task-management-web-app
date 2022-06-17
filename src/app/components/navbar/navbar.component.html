@@ -9,7 +9,7 @@
     </ng-container>
     <div class="navbar__actions" >
       <app-add-button [disabled$]="disabled$" [action]="onAddNewTask.bind(this)" label="Add New Task"></app-add-button>
-      <app-context-menu [disabled$]="disabled$"></app-context-menu>
+      <app-context-menu [disabled$]="disabled$" [contextMenu]="contextMenu"></app-context-menu>
     </div>
   </div>
 </div>
