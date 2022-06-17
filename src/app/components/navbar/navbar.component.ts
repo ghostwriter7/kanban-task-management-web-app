@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {Theme} from '../../core/enums';
 import {ModalService} from '../../core/services/modal.service';
 import {LayoutStoreFacade} from '../../core/store/layout/layout-store.facade';
@@ -18,6 +18,7 @@ import {BoardsStoreFacade} from '../../pages/boards/core/store/boards-store.faca
 export class NavbarComponent implements OnInit {
   currentBoard$: Observable<Board | undefined> = this.boardsStoreFacade.currentBoard$;
   currentTheme$: Observable<Theme> = this.layoutStoreFacade.getTheme$;
+  disabled$: Observable<boolean> = this.boardsStoreFacade.currentBoard$.pipe(map(board => !board));
   isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.getIsSidenavClosed$;
 
   constructor(

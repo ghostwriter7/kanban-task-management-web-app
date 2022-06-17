@@ -5,14 +5,21 @@ import * as boardActions from './boards.actions';
 export interface State {
   boards: Board[];
   currentBoard?: Board;
+  isSavingBoard: boolean;
 }
 
 export const initialState: State = {
   boards: [],
+  isSavingBoard: false,
 };
 
 export const reducer = createReducer(
   initialState,
-  on(boardActions.addNewBoardSuccess, (state, action) => ({ ...state, boards: [...state.boards, action.board] })),
-  on(boardActions.loadBoardsSuccess, (state, action) => ({ ...state, boards: [...state.boards, ...action.boards]}))
+  on(boardActions.addNewBoard, (state) => ({...state, isSavingBoard: true})),
+  on(boardActions.addNewBoardSuccess, (state, action) => ({ ...state, isSavingBoard: false, boards: [...state.boards, action.board] })),
+  on(boardActions.addNewBoardFailure, (state) => ({...state, isSavingBoard: false})),
+  on(boardActions.loadBoardsSuccess, (state, action) => ({ ...state, boards: [...state.boards, ...action.boards]})),
+  on(boardActions.selectBoard, (state, action) => ({ ...state, currentBoard: { ...action.board }}))
 );
+
+

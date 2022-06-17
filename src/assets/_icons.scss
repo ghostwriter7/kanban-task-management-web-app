@@ -7,6 +7,15 @@
     filter: invert(41%) sepia(12%) saturate(3443%) hue-rotate(205deg) brightness(91%) contrast(85%);
   }
 
+  &--active {
+    cursor: pointer;
+  }
+
+  &--disactive {
+    pointer-events: none;
+    opacity: .5;
+  }
+
   &--add {
     background: url("./icons/icon-add-task-mobile.svg");
     width: 8px;

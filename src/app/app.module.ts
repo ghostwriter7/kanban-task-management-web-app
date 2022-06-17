@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import {BoardsEffects} from './pages/boards/core/store/boards.effects';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -22,17 +23,18 @@ import {BoardsEffects} from './pages/boards/core/store/boards.effects';
     SidebarComponent,
     PlaceholderDirective,
   ],
-  imports: [
-    BrowserModule,
-    StoreModule.forRoot(fromApp.reducer),
-    EffectsModule.forRoot([BoardsEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
-  ],
+    imports: [
+        BrowserModule,
+        StoreModule.forRoot(fromApp.reducer),
+        EffectsModule.forRoot([BoardsEffects]),
+        StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        SharedModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

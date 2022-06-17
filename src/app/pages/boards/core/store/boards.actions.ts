@@ -10,3 +10,5 @@ export const loadBoard = createAction('[Board Page] Load Board', props<{ boardId
 export const loadBoards = createAction('[Board Page] Load Boards');
 export const loadBoardsSuccess = createAction('[Board API] Load Boards Success', props<{boards: Board[]}>());
 export const loadBoardsFailure = createAction('[Board API] Load Boards Failure', props<{error: any}>());
+
+export const selectBoard = createAction('[Side Nav] Select Board', props<{ board: Board}>());

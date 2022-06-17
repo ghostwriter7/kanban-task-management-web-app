@@ -1,4 +1,4 @@
-import {ActionReducerMap} from '@ngrx/store';
+import {ActionReducerMap, createSelector} from '@ngrx/store';
 import * as fromLayout from './layout/layout.reducer';
 import * as fromBoards from '../../pages/boards/core/store/boards.reducer';
 
@@ -14,3 +14,20 @@ export const reducer: ActionReducerMap<State> = {
 
 export const selectLayout = (state: State) => state.layout;
 export const selectBoard = (state: State) => state.boards;
+
+export const getNumberOfBoards = createSelector(
+  selectBoard,
+  (state) => state.boards.length
+);
+export const getCurrentBoard = createSelector(
+  selectBoard,
+  (state) => state.currentBoard
+);
+export const getCurrentBoardIndex = createSelector(
+  selectBoard,
+  (state) => state.boards.findIndex(board => board.id === state.currentBoard?.id)
+);
+export const isSavingBoard = createSelector(
+  selectBoard,
+  (state) => state.isSavingBoard
+);
