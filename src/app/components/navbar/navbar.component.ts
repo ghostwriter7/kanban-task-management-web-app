@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {map, Observable} from 'rxjs';
+import {map, Observable, startWith} from 'rxjs';
 import {Theme} from '../../core/enums';
 import {ContextMenu} from '../../core/interfaces';
 import {ModalService} from '../../core/services/modal.service';
@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   ];
   currentBoard$: Observable<Board | undefined> = this.boardsStoreFacade.currentBoard$;
   currentTheme$: Observable<Theme> = this.layoutStoreFacade.getTheme$;
-  disabled$: Observable<boolean> = this.boardsStoreFacade.currentBoard$.pipe(map(board => !board));
+  disabled$: Observable<boolean> = this.boardsStoreFacade.currentBoard$.pipe(map(board => !board), startWith(true));
   isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.getIsSidenavClosed$;
 
   constructor(
@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onDeleteBoard(): void {
-      this.boardsStoreFacade.deleteBoard();
+    this.boardsStoreFacade.deleteBoard();
   }
 
   onEditBoard(): void {

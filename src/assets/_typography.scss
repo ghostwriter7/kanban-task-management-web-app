@@ -30,6 +30,10 @@ h4 {
 .text {
   color: var(--text-primary);
 
+  &--danger {
+    color: var(--bg-danger);
+  }
+
   &--secondary {
     color: #828FA3;
   }

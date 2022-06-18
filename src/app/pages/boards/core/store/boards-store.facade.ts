@@ -39,4 +39,8 @@ export class BoardsStoreFacade {
   selectBoard(board: Board) {
     this.store.dispatch(boardActions.selectBoard({ board }));
   }
+
+  unselectBoard() {
+    this.store.dispatch(boardActions.unselectBoard());
+  }
 }

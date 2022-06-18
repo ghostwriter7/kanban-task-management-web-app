@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ModalService} from '../../core/services/modal.service';
 
 @Component({
@@ -7,12 +7,14 @@ import {ModalService} from '../../core/services/modal.service';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
+  @Output() close = new EventEmitter<boolean>();
   constructor(private modalService: ModalService) { }
 
   ngOnInit(): void {
   }
 
   onClose(): void {
+    this.close.emit(true);
     this.modalService.close();
   }
 }

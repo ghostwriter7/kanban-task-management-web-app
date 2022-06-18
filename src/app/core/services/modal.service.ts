@@ -1,4 +1,4 @@
-import {Injectable, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Injectable, ViewContainerRef} from '@angular/core';
 
 @Injectable({providedIn: 'root'})
 export class ModalService {
@@ -8,9 +8,9 @@ export class ModalService {
     this.viewContainerRef = viewContainerRef;
   }
 
-  open(component: any): void {
+  open<T>(component: any): ComponentRef<T> {
     this.viewContainerRef.clear();
-    this.viewContainerRef.createComponent<any>(component);
+    return this.viewContainerRef.createComponent<T>(component);
   }
 
   close(): void {

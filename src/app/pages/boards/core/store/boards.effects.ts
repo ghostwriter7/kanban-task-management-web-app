@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import firebase from 'firebase/compat';
-import {catchError, from, map, mergeMap, of, switchMap} from 'rxjs';
+import {catchError, finalize, from, map, mergeMap, of, switchMap, take, tap, withLatestFrom} from 'rxjs';
+import {ModalService} from '../../../../core/services/modal.service';
+import {ConfirmDeleteDialogComponent} from '../../../../shared/confirm-delete-dialog/confirm-delete-dialog.component';
 import {Board} from '../interfaces';
+import {BoardsStoreFacade} from './boards-store.facade';
 import * as boardsActions from './boards.actions';
 
 @Injectable()
@@ -15,6 +17,35 @@ export class BoardsEffects {
         map(docRef => boardsActions.addNewBoardSuccess({board: {...action.board, id: docRef.id}})),
         catchError(error => of(boardsActions.addNewBoardFailure({error})))
       )
+    })
+  ));
+
+  deleteBoard$ = createEffect(() => this.actions$.pipe(
+    ofType(boardsActions.deleteBoard),
+    withLatestFrom(this.boardsStoreFacade.currentBoard$),
+    switchMap(([_, board]) => {
+      const cmpRef = this.modalService.open<ConfirmDeleteDialogComponent>(ConfirmDeleteDialogComponent);
+      return cmpRef.instance.response$.pipe(take(1), map(response =>
+        response ? boardsActions.deleteBoardConfirmed({board: board!}) : boardsActions.deleteBoardCancelled())
+      )
+    })
+  ));
+
+  deleteBoardCancelled$ = createEffect(() => this.actions$.pipe(
+    ofType(boardsActions.deleteBoardCancelled),
+    tap(() => this.modalService.close())
+  ), {dispatch: false});
+
+  deleteBoardConfirmed$ = createEffect(() => this.actions$.pipe(
+    ofType(boardsActions.deleteBoardConfirmed),
+    switchMap(({board: {id}}) => {
+      return from(this.db.doc(`boards/${id}`).delete()).pipe(
+        map(() => boardsActions.deleteBoardSuccess({id})),
+        catchError(error => of(boardsActions.deleteBoardError({error}))),
+        finalize(() => {
+          this.modalService.close();
+          this.boardsStoreFacade.unselectBoard();
+        }));
     })
   ));
 
@@ -30,9 +61,11 @@ export class BoardsEffects {
       }),
       catchError(error => of(boardsActions.loadBoardsFailure({error})))
     ))
-  ))
+  ));
 
   constructor(private actions$: Actions,
-              private db: AngularFirestore) {
+              private boardsStoreFacade: BoardsStoreFacade,
+              private db: AngularFirestore,
+              private modalService: ModalService) {
   }
 }
