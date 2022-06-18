@@ -37,6 +37,13 @@ export class AddEditTaskDialogComponent implements OnInit {
     this.subtaskArray.removeAt(i);
   }
 
+
+  onSubmit() {
+      const task = this.form.value;
+
+      this.boardsStoreFacade.createTask(task);
+  }
+
   private buildForm(): void {
     this.form = this.formBuilder.group({
       title: this.formBuilder.control('', Validators.required),
@@ -45,5 +52,4 @@ export class AddEditTaskDialogComponent implements OnInit {
       status: this.formBuilder.control('', Validators.required)
     });
   }
-
 }

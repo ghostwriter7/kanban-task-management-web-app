@@ -33,6 +33,7 @@
 
   &__options {
     position: absolute;
+    z-index: 150;
     width: 100%;
     top: 47px;
     background: var(--body-bg);

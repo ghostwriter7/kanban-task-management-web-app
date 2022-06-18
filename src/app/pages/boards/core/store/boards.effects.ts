@@ -20,6 +20,20 @@ export class BoardsEffects {
     })
   ));
 
+  createTask$ = createEffect(() => this.actions$.pipe(
+    ofType(boardsActions.createTask),
+    withLatestFrom(this.boardsStoreFacade.currentBoard$),
+    mergeMap(([action, board]) =>
+      from(this.db.collection(`boards/${board!.id}/tasks`).add(action.task)).pipe(
+        map(docRef => {
+          this.modalService.close();
+          return boardsActions.createTaskSuccess({task: {...action.task, id: docRef.id}});
+        }),
+        catchError(error => of(boardsActions.createTaskFailure({error})))
+      )
+    )
+  ))
+
   deleteBoard$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.deleteBoard),
     withLatestFrom(this.boardsStoreFacade.currentBoard$),
@@ -67,10 +81,10 @@ export class BoardsEffects {
     ofType(boardsActions.updateBoard),
     switchMap(({board}) => {
       return from(this.db.doc(`boards/${board.id}`).update(board)).pipe(
-        map(() =>{
+        map(() => {
           this.modalService.close();
           return boardsActions.updateBoardSuccess({board});
-        } ),
+        }),
         catchError(error => of(boardsActions.updateBoardFailure({error})))
       );
     })

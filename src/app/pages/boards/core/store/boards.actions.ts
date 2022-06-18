@@ -1,9 +1,13 @@
 import {createAction, props} from '@ngrx/store';
-import {Board} from '../interfaces';
+import {Board, Task} from '../interfaces';
 
 export const addNewBoard = createAction('[Board Page] Add New Board', props<{ board: Board }>());
 export const addNewBoardSuccess = createAction('[Firebase] Add New Board Success', props<{ board: Board }>());
 export const addNewBoardFailure = createAction('[Firebase] Add New Board Failure', props<{error: any}>());
+
+export const createTask = createAction('[Add Task Dialog] Create New Task', props<{ task: Task}>());
+export const createTaskSuccess = createAction('[Firebase] Create New Task Success', props<{task: Task}>());
+export const createTaskFailure = createAction('[Firebase] Create New Task Failure', props<{ error: any}>());
 
 export const deleteBoard = createAction('[Context Menu] Delete Board');
 export const deleteBoardConfirmed = createAction('[Confirmed Dialog] Delete Board Confirmed', props<{ board: Board}>());

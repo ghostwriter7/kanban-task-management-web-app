@@ -21,11 +21,11 @@ export const getNumberOfBoards = createSelector(
 );
 export const getCurrentBoard = createSelector(
   selectBoard,
-  (state) => state.currentBoard
+  (state) => state.boards.find(board => board.id === state.currentBoardId)
 );
 export const getCurrentBoardIndex = createSelector(
   selectBoard,
-  (state) => state.boards.findIndex(board => board.id === state.currentBoard?.id)
+  (state) => state.boards.findIndex(board => board.id === state.currentBoardId)
 );
 export const isSavingBoard = createSelector(
   selectBoard,

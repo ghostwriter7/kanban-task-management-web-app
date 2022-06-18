@@ -1,6 +1,6 @@
 <app-modal>
   <h2>{{ mode === 'ADD' ? 'Add New' : 'Edit' }} Task</h2>
-  <form class="form" [formGroup]="form">
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form__control">
       <label class="form__label">Title</label>
       <input formControlName="title" type="text" class="form__input" placeholder="e.g. Take coffee break">
@@ -25,5 +25,6 @@
       <label class="form__label">Status</label>
       <app-dropdown formControlName="status" [options$]="boardsStoreFacade.statuses$"></app-dropdown>
     </div>
+    <button [disabled]="form.invalid" class="button button--primary" style="margin-top: 24px; width: 100%;" type="submit">Create Task</button>
   </form>
 </app-modal>

@@ -8,7 +8,7 @@ import {
   isSavingBoard
 } from '../../../../core/store/app.reducer';
 import * as fromApp from '../../../../core/store/app.reducer';
-import {Board, Column} from '../interfaces';
+import {Board, Column, Task} from '../interfaces';
 import * as boardActions from './boards.actions';
 
 @Injectable({
@@ -28,6 +28,10 @@ export class BoardsStoreFacade {
 
   addNewBoard(board: Board): void {
     this.store.dispatch(boardActions.addNewBoard({board}));
+  }
+
+  createTask(task: Task): void {
+    this.store.dispatch(boardActions.createTask({task}));
   }
 
   deleteBoard(): void {
