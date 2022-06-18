@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {CustomControlsModule} from '../../shared/custom-controls/custom-controls.module';
 import {ModalModule} from '../../shared/modal.module';
 import {SharedModule} from '../../shared/shared.module';
 import { AddEditTaskDialogComponent } from './components/add-edit-task-dialog/add-edit-task-dialog.component';
@@ -24,6 +25,7 @@ import { TaskComponent } from './components/task/task.component';
         ModalModule,
         ReactiveFormsModule,
         SharedModule,
+        CustomControlsModule,
     ]
 })
 export class BoardsModule { }

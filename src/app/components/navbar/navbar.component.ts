@@ -36,7 +36,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.onAddNewTask();
+    this.onAddNewTask();
   }
 
   onAddNewTask(): void {
