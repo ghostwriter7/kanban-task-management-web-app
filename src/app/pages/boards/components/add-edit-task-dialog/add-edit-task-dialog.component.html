@@ -23,7 +23,7 @@
     </div>
     <div class="form__control" style="margin-top: 24px;">
       <label class="form__label">Status</label>
-      <app-dropdown formControlName="status"></app-dropdown>
+      <app-dropdown formControlName="status" [options$]="boardsStoreFacade.statuses$"></app-dropdown>
     </div>
   </form>
 </app-modal>

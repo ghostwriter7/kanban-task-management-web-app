@@ -10,7 +10,7 @@
   <span class="dropdown__error-message text--mid text--danger" *ngIf="hasError">{{errorMessage}}</span>
   <div class="dropdown__options" *ngIf="isExpanded">
     <div (click)="selectOption(option)" class="dropdown__option text--large text--secondary"
-         *ngFor="let option of ['Todo', 'Test','Fuck']">
+         *ngFor="let option of options$ | async">
       {{option}}
     </div>
   </div>

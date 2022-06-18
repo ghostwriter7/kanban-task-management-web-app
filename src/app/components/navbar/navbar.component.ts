@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {map, Observable, startWith} from 'rxjs';
 import {DialogMode, Theme} from '../../core/enums';
 import {ContextMenu} from '../../core/interfaces';
@@ -19,7 +19,7 @@ import {BoardsStoreFacade} from '../../pages/boards/core/store/boards-store.faca
   styleUrls: ['./navbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   contextMenu: ContextMenu[] = [
     {label: 'Edit Board', action: this.onEditBoard.bind(this)},
     {label: 'Delete Board', action: this.onDeleteBoard.bind(this), danger: true}
@@ -33,10 +33,6 @@ export class NavbarComponent implements OnInit {
     private boardsStoreFacade: BoardsStoreFacade,
     private layoutStoreFacade: LayoutStoreFacade,
     private modalService: ModalService) {
-  }
-
-  ngOnInit(): void {
-    this.onAddNewTask();
   }
 
   onAddNewTask(): void {

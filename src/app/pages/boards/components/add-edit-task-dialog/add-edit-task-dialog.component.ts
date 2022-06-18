@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DialogMode} from '../../../../core/enums';
+import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
 
 @Component({
   selector: 'app-add-edit-task-dialog',
@@ -20,7 +21,9 @@ export class AddEditTaskDialogComponent implements OnInit {
     return (this.form.get('subtasks') as FormArray).controls;
   }
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    public boardsStoreFacade: BoardsStoreFacade,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -41,12 +44,6 @@ export class AddEditTaskDialogComponent implements OnInit {
       subtasks: this.formBuilder.array([this.formBuilder.control('', Validators.required)]),
       status: this.formBuilder.control('', Validators.required)
     });
-
-    this.form.valueChanges.subscribe(console.log)
-    console.log(this.form.controls['status'].touched);
-    this.form.controls['status'].valueChanges.subscribe(() => {
-      console.log(this.form.controls['status'].touched);
-    })
   }
 
 }

@@ -1,6 +1,7 @@
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component, forwardRef, Injector, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-dropdown',
@@ -26,7 +27,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms
   ]
 })
 export class DropdownComponent implements OnInit, ControlValueAccessor {
-  @Input() options!: string[];
+  @Input() options$!: Observable<string[]>;
   control!: NgControl;
   hasError = false;
   errorMessage = `This field is required!`;
@@ -40,7 +41,6 @@ export class DropdownComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit()  : void {
     this.control = this.injector.get(NgControl);
-    console.log(this.control);
   }
 
   toggleDropdown(): void {

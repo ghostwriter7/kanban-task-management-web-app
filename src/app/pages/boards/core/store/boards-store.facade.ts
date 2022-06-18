@@ -21,6 +21,7 @@ export class BoardsStoreFacade {
   currentColumns$: Observable<Column[]> = this.store.pipe(select(getCurrentBoard)).pipe(pluck('columns')) as Observable<Column[]>;
   isSavingBoard$: Observable<boolean> = this.store.pipe(select(isSavingBoard));
   numberOfBoards$: Observable<number> = this.store.pipe(select(getNumberOfBoards));
+  statuses$: Observable<string[]> = this.currentBoard$.pipe(pluck('columns')) as Observable<string[]>;
 
   constructor(private store: Store<fromApp.State>) {
   }
