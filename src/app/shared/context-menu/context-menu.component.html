@@ -1,0 +1,14 @@
+<label for="menu" [style.pointer-events]="(disabled$ | async) ? 'none' : 'auto'">
+  <input type="checkbox" id="menu" #control (change)="toggleContextMenu()" >
+  <div *ngIf="control.checked" class="context-menu">
+    <div
+      *ngFor="let item of contextMenu"
+      (click)="item.action()"
+      [class.context-menu__item--danger]="item.danger"
+      class="context-menu__item">
+      {{item.label}}
+    </div>
+  </div>
+  <i [class.icon--disactive]="disabled$ | async" class="icon icon--dots icon--active"></i>
+</label>
+
