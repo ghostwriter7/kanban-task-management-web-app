@@ -1,9 +1,12 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {map, Observable, startWith} from 'rxjs';
-import {Theme} from '../../core/enums';
+import {DialogMode, Theme} from '../../core/enums';
 import {ContextMenu} from '../../core/interfaces';
 import {ModalService} from '../../core/services/modal.service';
 import {LayoutStoreFacade} from '../../core/store/layout/layout-store.facade';
+import {
+  AddEditBoardDialogComponent
+} from '../../pages/boards/components/add-edit-board-dialog/add-edit-board-dialog.component';
 import {
   AddEditTaskDialogComponent
 } from '../../pages/boards/components/add-edit-task-dialog/add-edit-task-dialog.component';
@@ -45,6 +48,6 @@ export class NavbarComponent implements OnInit {
   }
 
   onEditBoard(): void {
-
+    this.modalService.open(AddEditBoardDialogComponent, { mode: DialogMode.Edit })
   }
 }

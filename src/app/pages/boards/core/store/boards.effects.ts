@@ -63,6 +63,19 @@ export class BoardsEffects {
     ))
   ));
 
+  updateBoard$ = createEffect(() => this.actions$.pipe(
+    ofType(boardsActions.updateBoard),
+    switchMap(({board}) => {
+      return from(this.db.doc(`boards/${board.id}`).update(board)).pipe(
+        map(() =>{
+          this.modalService.close();
+          return boardsActions.updateBoardSuccess({board});
+        } ),
+        catchError(error => of(boardsActions.updateBoardFailure({error})))
+      );
+    })
+  ));
+
   constructor(private actions$: Actions,
               private boardsStoreFacade: BoardsStoreFacade,
               private db: AngularFirestore,

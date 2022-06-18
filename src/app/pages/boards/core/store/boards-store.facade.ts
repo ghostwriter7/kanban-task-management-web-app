@@ -22,10 +22,11 @@ export class BoardsStoreFacade {
   isSavingBoard$: Observable<boolean> = this.store.pipe(select(isSavingBoard));
   numberOfBoards$: Observable<number> = this.store.pipe(select(getNumberOfBoards));
 
-  constructor(private store: Store<fromApp.State>) {}
+  constructor(private store: Store<fromApp.State>) {
+  }
 
   addNewBoard(board: Board): void {
-    this.store.dispatch(boardActions.addNewBoard({ board }));
+    this.store.dispatch(boardActions.addNewBoard({board}));
   }
 
   deleteBoard(): void {
@@ -37,10 +38,14 @@ export class BoardsStoreFacade {
   }
 
   selectBoard(board: Board) {
-    this.store.dispatch(boardActions.selectBoard({ board }));
+    this.store.dispatch(boardActions.selectBoard({board}));
   }
 
-  unselectBoard() {
+  unselectBoard(): void {
     this.store.dispatch(boardActions.unselectBoard());
+  }
+
+  updateBoard(board: Board): void {
+    this.store.dispatch(boardActions.updateBoard({board}));
   }
 }

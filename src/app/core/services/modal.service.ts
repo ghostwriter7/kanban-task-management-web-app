@@ -8,9 +8,15 @@ export class ModalService {
     this.viewContainerRef = viewContainerRef;
   }
 
-  open<T>(component: any): ComponentRef<T> {
+  open<T>(component: any, data?: { [key: string]: any }): ComponentRef<T> {
     this.viewContainerRef.clear();
-    return this.viewContainerRef.createComponent<T>(component);
+    const componentRef = this.viewContainerRef.createComponent<T>(component);
+    if (data) {
+      Object.keys(data).forEach(key => {
+        (componentRef.instance as {[key: string]: any})[key] = data[key];
+      })
+    }
+    return componentRef;
   }
 
   close(): void {

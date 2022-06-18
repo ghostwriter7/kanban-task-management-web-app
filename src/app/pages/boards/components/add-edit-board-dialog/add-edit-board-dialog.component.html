@@ -17,7 +17,7 @@
         class="icon icon--add icon--primary-clr"></i> Add New Column
       </button>
       <button [disabled]="isSavingBoard$ | async" class="button button--primary" type="submit">
-        Create New Board
+        {{mode === 'ADD' ? 'Create New' : 'Update'}} Board
       </button>
     </div>
   </form>

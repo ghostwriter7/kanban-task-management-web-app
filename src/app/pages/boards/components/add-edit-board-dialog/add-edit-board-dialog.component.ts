@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Observable, take} from 'rxjs';
 import {DialogMode} from '../../../../core/enums';
 import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
 
@@ -11,9 +11,9 @@ import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddEditBoardDialogComponent implements OnInit {
+  @Input() mode: DialogMode = DialogMode.Add;
   form!: FormGroup;
   isSavingBoard$: Observable<boolean> = this.boardStoreFacade.isSavingBoard$;
-  mode: DialogMode = DialogMode.Add;
 
   get columns() {
     return (this.form.get('columns') as FormArray).controls;
@@ -24,10 +24,10 @@ export class AddEditBoardDialogComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      name: this.formBuilder.control('', [Validators.required]),
-      columns: this.formBuilder.array([this.formBuilder.control('', [Validators.required])], [Validators.required])
-    });
+    this.buildForm();
+    if (this.mode === DialogMode.Edit) {
+      this.populateForm();
+    }
   }
 
   onAddNewColumn(): void {
@@ -41,7 +41,28 @@ export class AddEditBoardDialogComponent implements OnInit {
   onSubmit(): void {
     const board = this.form.value;
     board.columns = board.columns.filter(Boolean);
-    this.boardStoreFacade.addNewBoard(board);
+
+    this.mode === DialogMode.Add ?
+    this.boardStoreFacade.addNewBoard(board)
+  : this.boardStoreFacade.updateBoard(board)
   }
 
+  private buildForm(): void {
+    this.form = this.formBuilder.group({
+      name: this.formBuilder.control('', [Validators.required]),
+      columns: this.formBuilder.array([this.formBuilder.control('', [Validators.required])], [Validators.required])
+    });
+  }
+
+  private populateForm() {
+    this.boardStoreFacade.currentBoard$.pipe(take(1)).subscribe(board => {
+      this.form.addControl('id', this.formBuilder.control(board?.id));
+      const columns = this.form.get('columns') as FormArray;
+      columns.clear();
+      board?.columns.forEach(column => {
+        columns.push(new FormControl(column, Validators.required));
+      });
+      this.form.patchValue({ name: board?.name});
+    });
+  }
 }
