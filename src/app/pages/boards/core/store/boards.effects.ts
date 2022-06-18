@@ -4,7 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, finalize, from, map, mergeMap, of, switchMap, take, tap, withLatestFrom} from 'rxjs';
 import {ModalService} from '../../../../core/services/modal.service';
 import {ConfirmDeleteDialogComponent} from '../../../../shared/confirm-delete-dialog/confirm-delete-dialog.component';
-import {Board} from '../interfaces';
+import {Board, Task} from '../interfaces';
 import {BoardsStoreFacade} from './boards-store.facade';
 import * as boardsActions from './boards.actions';
 
@@ -14,7 +14,10 @@ export class BoardsEffects {
     ofType(boardsActions.addNewBoard),
     mergeMap(action => {
       return from(this.db.collection<Board>('boards').add(action.board)).pipe(
-        map(docRef => boardsActions.addNewBoardSuccess({board: {...action.board, id: docRef.id}})),
+        map(docRef => {
+          this.modalService.close();
+          return boardsActions.addNewBoardSuccess({board: {...action.board, id: docRef.id}})
+        }),
         catchError(error => of(boardsActions.addNewBoardFailure({error})))
       )
     })
@@ -76,6 +79,22 @@ export class BoardsEffects {
       catchError(error => of(boardsActions.loadBoardsFailure({error})))
     ))
   ));
+
+  selectBoard$ = createEffect(() => this.actions$.pipe(
+    ofType(boardsActions.selectBoard),
+    switchMap(({board}) => {
+      return this.db.collection<Task>(`boards/${board!.id}/tasks`).get().pipe(
+        map(snaps => {
+          const tasks: Task[] = [];
+          snaps.forEach(snap => {
+            tasks.push({...snap.data(), id: snap.id});
+          });
+          return boardsActions.loadTasksSuccess({tasks});
+        }),
+        catchError(error => of(boardsActions.loadTasksFailure({error})))
+      );
+    })
+  ))
 
   updateBoard$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.updateBoard),

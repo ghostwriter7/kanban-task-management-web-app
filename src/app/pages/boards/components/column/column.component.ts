@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Column} from '../../core/interfaces';
+import {Observable} from 'rxjs';
+import {Task} from '../../core/interfaces';
+import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
 
 @Component({
   selector: 'app-column',
@@ -7,20 +9,14 @@ import {Column} from '../../core/interfaces';
   styleUrls: ['./column.component.scss']
 })
 export class ColumnComponent implements OnInit {
-  @Input() column!: Column;
+  @Input() column!: string;
   color: string = '#' + Math.floor(Math.random()*16777215).toString(16);
+  tasks$!: Observable<Task[]>;
 
-
-  mockupTasks: { title: string; allSubtasks: number; completedSubtasks: number }[] = [
-    { title: 'Build UI for search', allSubtasks: 1, completedSubtasks: 0 },
-    { title: 'Build UI for search', allSubtasks: 1, completedSubtasks: 0 },
-    { title: 'Build UI for search', allSubtasks: 1, completedSubtasks: 0 },
-    { title: 'Build UI for search', allSubtasks: 1, completedSubtasks: 0 },
-  ]
-
-  constructor() { }
+  constructor(private boardsStoreFacade: BoardsStoreFacade) { }
 
   ngOnInit(): void {
+    this.tasks$ = this.boardsStoreFacade.getCurrentTasks(this.column);
   }
 
 }

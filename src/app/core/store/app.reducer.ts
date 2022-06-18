@@ -27,6 +27,10 @@ export const getCurrentBoardIndex = createSelector(
   selectBoard,
   (state) => state.boards.findIndex(board => board.id === state.currentBoardId)
 );
+export const getCurrentTasks = createSelector(
+  selectBoard,
+  (state) => state.tasks[state.currentBoardId!]
+);
 export const isSavingBoard = createSelector(
   selectBoard,
   (state) => state.isSavingBoard

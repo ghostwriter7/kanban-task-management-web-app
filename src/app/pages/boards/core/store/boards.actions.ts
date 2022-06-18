@@ -21,6 +21,9 @@ export const loadBoards = createAction('[Board Page] Load Boards');
 export const loadBoardsSuccess = createAction('[Firebase] Load Boards Success', props<{boards: Board[]}>());
 export const loadBoardsFailure = createAction('[Firebase] Load Boards Failure', props<{error: any}>());
 
+export const loadTasksSuccess = createAction('[Firebase] Load Tasks Success', props<{tasks: Task[]}>());
+export const loadTasksFailure = createAction('[Firebase] Load Tasks Failure', props<{error: any}>());
+
 export const selectBoard = createAction('[Side Nav] Select Board', props<{ board: Board | undefined}>());
 export const unselectBoard = createAction('[Board Effects] Unselect Board');
 

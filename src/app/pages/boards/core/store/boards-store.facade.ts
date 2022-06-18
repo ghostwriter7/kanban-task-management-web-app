@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Observable, pluck} from 'rxjs';
+import {map, Observable, pluck} from 'rxjs';
 import {
   getCurrentBoard,
-  getCurrentBoardIndex,
+  getCurrentBoardIndex, getCurrentTasks,
   getNumberOfBoards,
   isSavingBoard
 } from '../../../../core/store/app.reducer';
@@ -19,6 +19,7 @@ export class BoardsStoreFacade {
   currentBoard$: Observable<Board | undefined> = this.store.pipe(select(getCurrentBoard));
   currentBoardIndex$: Observable<number> = this.store.pipe(select(getCurrentBoardIndex));
   currentColumns$: Observable<Column[]> = this.store.pipe(select(getCurrentBoard)).pipe(pluck('columns')) as Observable<Column[]>;
+  currentTasks$: Observable<Task[]> = this.store.pipe(select(getCurrentTasks));
   isSavingBoard$: Observable<boolean> = this.store.pipe(select(isSavingBoard));
   numberOfBoards$: Observable<number> = this.store.pipe(select(getNumberOfBoards));
   statuses$: Observable<string[]> = this.currentBoard$.pipe(pluck('columns')) as Observable<string[]>;
@@ -36,6 +37,10 @@ export class BoardsStoreFacade {
 
   deleteBoard(): void {
     this.store.dispatch(boardActions.deleteBoard());
+  }
+
+  getCurrentTasks(column: string): Observable<Task[]> {
+    return this.currentTasks$.pipe(map(tasks => (tasks || []).filter(task => task.status === column)));
   }
 
   loadBoards(): void {

@@ -1,16 +1,18 @@
 import {createReducer, on} from '@ngrx/store';
-import {Board} from '../interfaces';
+import {Board, Task} from '../interfaces';
 import * as boardActions from './boards.actions';
 import {cloneDeep} from 'lodash';
 
 export interface State {
   boards: Board[];
+  tasks: {[key: string]: Task[]};
   currentBoardId?: string;
   isSavingBoard: boolean;
 }
 
 export const initialState: State = {
   boards: [],
+  tasks: {},
   isSavingBoard: false,
 };
 
@@ -24,17 +26,21 @@ export const reducer = createReducer(
   })),
   on(boardActions.addNewBoardFailure, (state) => ({...state, isSavingBoard: false})),
   on(boardActions.createTaskSuccess, (state, action) => {
-    const id = state.currentBoardId;
-    const cloneBoards = cloneDeep(state.boards);
-    const updatedBoard = cloneBoards.find(board => board.id === id)!;
-    Array.isArray(updatedBoard.tasks) ? updatedBoard.tasks.push(action.task) : updatedBoard.tasks = [{...action.task}];
-    return {...state, boards: cloneBoards};
+    const id = state.currentBoardId!;
+    const tasks = cloneDeep(state.tasks);
+    Array.isArray(tasks[id]) ? tasks[id].push(action.task) : tasks[id] = [action.task];
+    return {...state, tasks};
   }),
   on(boardActions.deleteBoardSuccess, (state, {id}) => ({
     ...state,
     boards: [...state.boards.filter(board => board.id !== id)]
   })),
   on(boardActions.loadBoardsSuccess, (state, action) => ({...state, boards: [...state.boards, ...action.boards]})),
+  on(boardActions.loadTasksSuccess, (state, action) => {
+    const tasks = cloneDeep(state.tasks);
+    tasks[state.currentBoardId!] = action.tasks;
+    return { ...state, tasks };
+  }),
   on(boardActions.selectBoard, (state, action) => ({...state, currentBoardId: action.board!.id})),
   on(boardActions.unselectBoard, (state) => ({...state, currentBoardId: undefined})),
   on(boardActions.updateBoardSuccess, (state, action) => ({
