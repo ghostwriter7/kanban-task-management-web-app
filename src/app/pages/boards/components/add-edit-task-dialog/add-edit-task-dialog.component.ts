@@ -40,7 +40,6 @@ export class AddEditTaskDialogComponent implements OnInit {
 
   onSubmit() {
       const task = this.form.value;
-
       this.boardsStoreFacade.createTask(task);
   }
 

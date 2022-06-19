@@ -4,6 +4,6 @@ export interface Task {
   id?: string;
   title: string;
   description: string;
-  subtasks: Subtask[];
+  subtasks: Subtask[] | string[];
   status: string;
 }
