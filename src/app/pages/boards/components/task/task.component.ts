@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TaskStatus} from '../../core/enums';
+import {ModalService} from '../../../../core/services/modal.service';
 import {Task} from '../../core/interfaces';
 import {Subtask} from '../../core/interfaces/subtask.interface';
+import {PreviewTaskComponent} from '../preview-task/preview-task.component';
 
 @Component({
   selector: 'app-task',
@@ -12,12 +13,15 @@ export class TaskComponent implements OnInit {
   @Input() task!: Task;
 
   get completed() {
-    return (this.task.subtasks as Subtask[]).filter((task) => task.status === TaskStatus.Complete).length;
+    return (this.task.subtasks as Subtask[]).filter((task) => task.completed).length;
   }
 
-  constructor() { }
+  constructor(private modalService: ModalService) { }
 
   ngOnInit(): void {
   }
 
+  previewTask() {
+    this.modalService.open(PreviewTaskComponent, { task: this.task });
+  }
 }

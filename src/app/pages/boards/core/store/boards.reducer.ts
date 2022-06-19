@@ -31,10 +31,16 @@ export const reducer = createReducer(
     Array.isArray(tasks[id]) ? tasks[id].push(action.task) : tasks[id] = [action.task];
     return {...state, tasks};
   }),
-  on(boardActions.deleteBoardSuccess, (state, {id}) => ({
-    ...state,
-    boards: [...state.boards.filter(board => board.id !== id)]
-  })),
+  on(boardActions.deleteBoardSuccess, (state, {id}) => {
+    const tasks = cloneDeep(state.tasks);
+    delete tasks[id];
+
+    return {
+      ...state,
+      boards: [...state.boards.filter(board => board.id !== id)],
+      tasks
+    }
+  }),
   on(boardActions.loadBoardsSuccess, (state, action) => ({...state, boards: [...state.boards, ...action.boards.map(board => ({ ...board, isFullyLoaded: false}))]})),
   on(boardActions.loadTasksSuccess, (state, action) => {
     const boards = cloneDeep(state.boards);

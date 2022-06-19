@@ -28,14 +28,14 @@ import {Observable} from 'rxjs';
 })
 export class DropdownComponent implements OnInit, ControlValueAccessor {
   @Input() options$!: Observable<string[]>;
+  @Input() selected?: string;
   control!: NgControl;
   hasError = false;
   errorMessage = `This field is required!`;
-  isExpanded = true;
+  isExpanded = false;
   isDisabled = false;
   onChange!: (_: any) => void;
   onTouched!: () => void;
-  selected?: string;
 
   constructor(private injector: Injector) {}
 
@@ -67,8 +67,8 @@ export class DropdownComponent implements OnInit, ControlValueAccessor {
     this.selected = option;
     if (typeof this.onChange === 'function') {
       this.onChange(this.selected);
+      this.toggleDropdown();
     }
-    this.toggleDropdown();
   }
 
   writeValue(obj: any): void {

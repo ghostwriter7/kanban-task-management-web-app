@@ -10,6 +10,7 @@ import { AddEditBoardDialogComponent } from './components/add-edit-board-dialog/
 import { BoardComponent } from './components/board/board.component';
 import { ColumnComponent } from './components/column/column.component';
 import { TaskComponent } from './components/task/task.component';
+import { PreviewTaskComponent } from './components/preview-task/preview-task.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { TaskComponent } from './components/task/task.component';
     AddEditBoardDialogComponent,
     BoardComponent,
     ColumnComponent,
-    TaskComponent
+    TaskComponent,
+    PreviewTaskComponent
   ],
     imports: [
         CommonModule,

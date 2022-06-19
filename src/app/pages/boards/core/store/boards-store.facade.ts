@@ -8,7 +8,6 @@ import {
   isSavingBoard
 } from '../../../../core/store/app.reducer';
 import * as fromApp from '../../../../core/store/app.reducer';
-import {TaskStatus} from '../enums';
 import {Board, Column, Task} from '../interfaces';
 import {Subtask} from '../interfaces/subtask.interface';
 import * as boardActions from './boards.actions';
@@ -34,7 +33,7 @@ export class BoardsStoreFacade {
   }
 
   createTask(task: Task): void {
-    task.subtasks = task.subtasks.map(subtask => ({ title: subtask, status: TaskStatus.Pending })) as Subtask[];
+    task.subtasks = task.subtasks.map(subtask => ({ title: subtask, completed: false })) as Subtask[];
     this.store.dispatch(boardActions.createTask({task}));
   }
 

@@ -52,7 +52,22 @@
     }
   }
 
-  &__actions {
+  &__checkbox {
+    display: none;
 
+    & + span {
+      cursor: pointer;
+      background: var(--body-bg);
+      border: 1px solid rgba(130, 143, 163, 0.248914);
+      border-radius: 2px;
+      width: 16px;
+      height: 16px;
+    }
+
+    &:checked + span {
+      background: url("../assets/icons/icon-check.svg") no-repeat center;
+      background-size: 10px 8px;
+      background-color: var(--bg-primary);
+    }
   }
 }
