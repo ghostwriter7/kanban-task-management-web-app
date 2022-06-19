@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, finalize, from, map, mergeMap, of, switchMap, take, tap, withLatestFrom} from 'rxjs';
+import {catchError, EMPTY, finalize, from, map, mergeMap, of, switchMap, take, tap, withLatestFrom} from 'rxjs';
 import {ModalService} from '../../../../core/services/modal.service';
 import {ConfirmDeleteDialogComponent} from '../../../../shared/confirm-delete-dialog/confirm-delete-dialog.component';
 import {Board, Task} from '../interfaces';
@@ -83,6 +83,9 @@ export class BoardsEffects {
   selectBoard$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.selectBoard),
     switchMap(({board}) => {
+      if (board!.isFullyLoaded) {
+        return EMPTY;
+      }
       return this.db.collection<Task>(`boards/${board!.id}/tasks`).get().pipe(
         map(snaps => {
           const tasks: Task[] = [];
@@ -94,7 +97,7 @@ export class BoardsEffects {
         catchError(error => of(boardsActions.loadTasksFailure({error})))
       );
     })
-  ))
+  ));
 
   updateBoard$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.updateBoard),

@@ -22,7 +22,7 @@ export const reducer = createReducer(
   on(boardActions.addNewBoardSuccess, (state, action) => ({
     ...state,
     isSavingBoard: false,
-    boards: [...state.boards, action.board]
+    boards: [...state.boards, { ...action.board, isFullyLoaded: true}]
   })),
   on(boardActions.addNewBoardFailure, (state) => ({...state, isSavingBoard: false})),
   on(boardActions.createTaskSuccess, (state, action) => {
@@ -35,11 +35,13 @@ export const reducer = createReducer(
     ...state,
     boards: [...state.boards.filter(board => board.id !== id)]
   })),
-  on(boardActions.loadBoardsSuccess, (state, action) => ({...state, boards: [...state.boards, ...action.boards]})),
+  on(boardActions.loadBoardsSuccess, (state, action) => ({...state, boards: [...state.boards, ...action.boards.map(board => ({ ...board, isFullyLoaded: false}))]})),
   on(boardActions.loadTasksSuccess, (state, action) => {
+    const boards = cloneDeep(state.boards);
+    boards.find(board => board.id === state.currentBoardId)!.isFullyLoaded = true;
     const tasks = cloneDeep(state.tasks);
     tasks[state.currentBoardId!] = action.tasks;
-    return { ...state, tasks };
+    return { ...state, boards, tasks };
   }),
   on(boardActions.selectBoard, (state, action) => ({...state, currentBoardId: action.board!.id})),
   on(boardActions.unselectBoard, (state) => ({...state, currentBoardId: undefined})),
