@@ -60,4 +60,8 @@ export class BoardsStoreFacade {
   updateBoard(board: Board): void {
     this.store.dispatch(boardActions.updateBoard({board}));
   }
+
+  updateTask(task: Task, index: number): void {
+    this.store.dispatch(boardActions.updateTask({task, index}));
+  }
 }

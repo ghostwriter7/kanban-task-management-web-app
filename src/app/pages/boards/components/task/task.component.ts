@@ -10,6 +10,7 @@ import {PreviewTaskComponent} from '../preview-task/preview-task.component';
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
+  @Input() index!: number;
   @Input() task!: Task;
 
   get completed() {
@@ -22,6 +23,6 @@ export class TaskComponent implements OnInit {
   }
 
   previewTask() {
-    this.modalService.open(PreviewTaskComponent, { task: this.task });
+    this.modalService.open(PreviewTaskComponent, { task: this.task, index: this.index });
   }
 }

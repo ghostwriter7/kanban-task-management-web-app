@@ -4,6 +4,6 @@
     <h4>{{column}}  ({{tasks.length}})</h4>
   </div>
   <div class="column__body">
-    <app-task *ngFor="let task of tasks" [task]="task"></app-task>
+    <app-task *ngFor="let task of tasks; let i = index" [task]="task" [index]="i"></app-task>
   </div>
 </div>

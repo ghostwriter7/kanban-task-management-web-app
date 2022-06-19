@@ -56,7 +56,12 @@ export const reducer = createReducer(
       return board.id === action.board.id ? action.board : board;
     })],
     currentBoard: {...action.board}
-  }))
+  })),
+  on(boardActions.updateTaskSuccess, (state, action) => {
+    const tasks = cloneDeep(state.tasks);
+    tasks[state.currentBoardId!][action.index] = action.task;
+    return { ...state, tasks };
+  })
 );
 
 

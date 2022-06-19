@@ -30,3 +30,7 @@ export const unselectBoard = createAction('[Board Effects] Unselect Board');
 export const updateBoard = createAction('[Edit Board Dialog] Update Board', props<{ board: Board}>());
 export const updateBoardSuccess = createAction('[Firebase] Update Board Success', props<{ board: Board}>());
 export const updateBoardFailure = createAction('[Firebase] Update Board Failure', props<{error: any}>());
+
+export const updateTask = createAction('[Task Preview] Update Task', props<{ task: Task, index: number}>());
+export const updateTaskSuccess = createAction('[Firebase] Update Task Success', props<{ task: Task, index: number}>());
+export const updateTaskFailure = createAction('[Firebase] Update Task Failure', props<{ error: any}>());
