@@ -25,6 +25,6 @@
       <label class="form__label">Status</label>
       <app-dropdown formControlName="status" [options$]="boardsStoreFacade.statuses$"></app-dropdown>
     </div>
-    <button [disabled]="form.invalid" class="button button--primary" style="margin-top: 24px; width: 100%;" type="submit">Create Task</button>
+    <button [disabled]="form.invalid" class="button button--primary" style="margin-top: 24px; width: 100%;" type="submit">{{mode === 'ADD' ? 'Create' : 'Update'}} Task</button>
   </form>
 </app-modal>

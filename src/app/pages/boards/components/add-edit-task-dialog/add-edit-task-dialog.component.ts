@@ -1,6 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DialogMode} from '../../../../core/enums';
+import {Task} from '../../core/interfaces';
+import {Subtask} from '../../core/interfaces/subtask.interface';
 import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
 
 @Component({
@@ -12,6 +14,7 @@ import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
 export class AddEditTaskDialogComponent implements OnInit {
   form!: FormGroup;
   mode: DialogMode = DialogMode.Add;
+  task?: Task;
 
   get subtaskArray() {
     return this.form.get('subtasks') as FormArray;
@@ -27,6 +30,9 @@ export class AddEditTaskDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
+    if (this.task) {
+      this.populateForm();
+    }
   }
 
   onAddSubtask(): void {
@@ -50,5 +56,15 @@ export class AddEditTaskDialogComponent implements OnInit {
       subtasks: this.formBuilder.array([this.formBuilder.control('', Validators.required)]),
       status: this.formBuilder.control('', Validators.required)
     });
+  }
+
+  private populateForm() {
+    this.mode = DialogMode.Edit;
+    (this.form.get('subtasks') as FormArray).clear();
+    this.task!.subtasks?.forEach(subtask => {
+      (this.form.get('subtasks') as FormArray).push(this.formBuilder.control((subtask as Subtask).title, Validators.required));
+    });
+
+    this.form.patchValue({ title: this.task!.title, description: this.task!.description, status: this.task!.status });
   }
 }
