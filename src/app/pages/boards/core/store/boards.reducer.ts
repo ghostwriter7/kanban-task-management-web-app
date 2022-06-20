@@ -41,6 +41,11 @@ export const reducer = createReducer(
       tasks
     }
   }),
+  on(boardActions.deleteTaskSuccess, (state, {boardId, index}) => {
+    const tasks = cloneDeep(state.tasks);
+    delete tasks[boardId][index];
+    return { ...state, tasks }
+  }),
   on(boardActions.loadBoardsSuccess, (state, action) => ({...state, boards: [...state.boards, ...action.boards.map(board => ({ ...board, isFullyLoaded: false}))]})),
   on(boardActions.loadTasksSuccess, (state, action) => {
     const boards = cloneDeep(state.boards);

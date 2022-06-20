@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, delay, EMPTY, finalize, from, map, mergeMap, of, switchMap, take, tap, withLatestFrom} from 'rxjs';
+import {catchError, EMPTY, finalize, from, map, mergeMap, of, switchMap, take, tap, withLatestFrom} from 'rxjs';
 import {ModalService} from '../../../../core/services/modal.service';
 import {ConfirmDeleteDialogComponent} from '../../../../shared/confirm-delete-dialog/confirm-delete-dialog.component';
 import {Board, Task} from '../interfaces';
@@ -18,9 +18,9 @@ export class BoardsEffects {
           this.modalService.close();
           return boardsActions.addNewBoardSuccess({board: {...action.board, id: docRef.id}})
         }),
-        catchError(error => of(boardsActions.addNewBoardFailure({error})))
+        catchError(error => of(boardsActions.addNewBoardFailure({error}))),
       )
-    })
+    }),
   ));
 
   createTask$ = createEffect(() => this.actions$.pipe(
@@ -32,9 +32,9 @@ export class BoardsEffects {
           this.modalService.close();
           return boardsActions.createTaskSuccess({task: {...action.task, id: docRef.id}});
         }),
-        catchError(error => of(boardsActions.createTaskFailure({error})))
-      )
-    )
+        catchError(error => of(boardsActions.createTaskFailure({error}))),
+      ),
+    ),
   ))
 
   deleteBoard$ = createEffect(() => this.actions$.pipe(
@@ -43,14 +43,14 @@ export class BoardsEffects {
     switchMap(([_, board]) => {
       const cmpRef = this.modalService.open<ConfirmDeleteDialogComponent>(ConfirmDeleteDialogComponent);
       return cmpRef.instance.response$.pipe(take(1), map(response =>
-        response ? boardsActions.deleteBoardConfirmed({board: board!}) : boardsActions.deleteBoardCancelled())
+        response ? boardsActions.deleteBoardConfirmed({board: board!}) : boardsActions.deleteBoardCancelled()),
       )
-    })
+    }),
   ));
 
   deleteBoardCancelled$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.deleteBoardCancelled),
-    tap(() => this.modalService.close())
+    tap(() => this.modalService.close()),
   ), {dispatch: false});
 
   deleteBoardConfirmed$ = createEffect(() => this.actions$.pipe(
@@ -63,8 +63,22 @@ export class BoardsEffects {
           this.modalService.close();
           this.boardsStoreFacade.unselectBoard();
         }));
-    })
+    }),
   ));
+
+  deleteTask$ = createEffect(() => this.actions$.pipe(
+    ofType(boardsActions.deleteTask),
+    withLatestFrom(this.boardsStoreFacade.currentBoard$),
+    mergeMap(([{task, index}, board]) => {
+      return from(this.db.doc(`boards/${board!.id}/tasks/${task.id}`).delete()).pipe(
+        map(() =>{
+          this.modalService.close();
+          return  boardsActions.deleteTaskSuccess({boardId: board!.id, index})
+        }),
+        catchError(error => of(boardsActions.deleteTaskFailure({error}))),
+      );
+    }),
+  ))
 
   loadBoards$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.loadBoards),
@@ -76,8 +90,8 @@ export class BoardsEffects {
         });
         return boardsActions.loadBoardsSuccess({boards});
       }),
-      catchError(error => of(boardsActions.loadBoardsFailure({error})))
-    ))
+      catchError(error => of(boardsActions.loadBoardsFailure({error}))),
+    )),
   ));
 
   selectBoard$ = createEffect(() => this.actions$.pipe(
@@ -94,9 +108,9 @@ export class BoardsEffects {
           });
           return boardsActions.loadTasksSuccess({tasks});
         }),
-        catchError(error => of(boardsActions.loadTasksFailure({error})))
+        catchError(error => of(boardsActions.loadTasksFailure({error}))),
       );
-    })
+    }),
   ));
 
   updateBoard$ = createEffect(() => this.actions$.pipe(
@@ -107,21 +121,20 @@ export class BoardsEffects {
           this.modalService.close();
           return boardsActions.updateBoardSuccess({board});
         }),
-        catchError(error => of(boardsActions.updateBoardFailure({error})))
+        catchError(error => of(boardsActions.updateBoardFailure({error}))),
       );
-    })
+    }),
   ));
 
   updateTask$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.updateTask),
-    delay(2000),
     withLatestFrom(this.boardsStoreFacade.currentBoard$),
     switchMap(([{task, index}, board]) => {
       return from(this.db.doc(`boards/${board!.id}/tasks/${task.id}`).update(task)).pipe(
-        map(() => boardsActions.updateTaskSuccess({ task, index})),
-        catchError(error => of(boardsActions.updateBoardFailure({error})))
+        map(() => boardsActions.updateTaskSuccess({task, index})),
+        catchError(error => of(boardsActions.updateBoardFailure({error}))),
       );
-    })
+    }),
   ));
 
   constructor(private actions$: Actions,

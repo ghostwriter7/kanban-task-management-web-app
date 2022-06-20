@@ -5,9 +5,9 @@ input {
 .context-menu {
   position: absolute;
   min-width: 192px;
-  top: 90px;
-  right: 33px;
-  z-index: 100;
+  top: 20px;
+  right: -15px;
+  z-index: 150;
   background: var(--bg-primary-box);
   box-shadow: 3px 3px 2px rgba(54, 78, 126, 0.25);
   border-radius: 8px;

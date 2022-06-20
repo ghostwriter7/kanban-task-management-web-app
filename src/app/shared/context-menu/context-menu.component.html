@@ -1,5 +1,5 @@
-<label for="menu" [style.pointer-events]="(disabled$ | async) ? 'none' : 'auto'">
-  <input type="checkbox" id="menu" #control (change)="toggleContextMenu()" >
+<label [for]="contextMenuId" style="position:relative;" [style.pointer-events]="(disabled$ | async) ? 'none' : 'auto'">
+  <input type="checkbox" [id]="contextMenuId"  #control (change)="toggleContextMenu()" >
   <div *ngIf="control.checked" class="context-menu">
     <div
       *ngFor="let item of contextMenu"

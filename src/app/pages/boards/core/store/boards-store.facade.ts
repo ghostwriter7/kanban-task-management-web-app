@@ -41,6 +41,10 @@ export class BoardsStoreFacade {
     this.store.dispatch(boardActions.deleteBoard());
   }
 
+  deleteTask(task: Task, index: number): void {
+    this.store.dispatch(boardActions.deleteTask({task, index}));
+  }
+
   getCurrentTasks(column: string): Observable<Task[]> {
     return this.currentTasks$.pipe(map(tasks => (tasks || []).filter(task => task.status === column)));
   }

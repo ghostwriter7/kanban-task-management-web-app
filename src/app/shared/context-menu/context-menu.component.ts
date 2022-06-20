@@ -19,6 +19,7 @@ export class ContextMenuComponent {
   }
   @Input() contextMenu!: ContextMenu[];
   @Input() disabled$!: Observable<boolean>;
+  contextMenuId = Math.floor(Math.random() * 100);
 
   toggleContextMenu() {
     this.control.nativeElement.checked = !this.control.nativeElement.checked;

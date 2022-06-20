@@ -15,6 +15,10 @@ export const deleteBoardCancelled = createAction('[Confirmed Dialog] Delete Boar
 export const deleteBoardSuccess = createAction('[Firebase] Delete Board Success', props<{id: string}>());
 export const deleteBoardError = createAction('[Firebase] Delete Board Error', props<{error: any}>());
 
+export const deleteTask = createAction('[Task Page] Delete Task', props<{ task: Task, index: number}>());
+export const deleteTaskSuccess = createAction('[Firebase] Delete Task Success', props<{ boardId: string, index: number}>());
+export const deleteTaskFailure = createAction('[Firebase] Delete Task Failure', props<{error: any}>());
+
 export const loadBoard = createAction('[Board Page] Load Board', props<{ boardId: number }>());
 
 export const loadBoards = createAction('[Board Page] Load Boards');
