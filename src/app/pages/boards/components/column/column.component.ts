@@ -1,4 +1,6 @@
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {Component, Input, OnInit} from '@angular/core';
+import {cloneDeep} from 'lodash';
 import {Observable} from 'rxjs';
 import {Task} from '../../core/interfaces';
 import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
@@ -10,6 +12,8 @@ import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
 })
 export class ColumnComponent implements OnInit {
   @Input() column!: string;
+  @Input() dropList!: string;
+  @Input() id!: string;
   color: string = '#' + Math.floor(Math.random()*16777215).toString(16);
   tasks$!: Observable<Task[]>;
 
@@ -19,4 +23,11 @@ export class ColumnComponent implements OnInit {
     this.tasks$ = this.boardsStoreFacade.getCurrentTasks(this.column);
   }
 
+  drop(event: CdkDragDrop<string | any>): void {
+    if (event.previousContainer !== event.container) {
+      const task = cloneDeep(event.item.data);
+      task.status = event.container.data;
+      this.boardsStoreFacade.updateTask(task);
+    }
+  }
 }

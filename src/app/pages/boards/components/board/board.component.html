@@ -7,8 +7,8 @@
 </div>
 
 <ng-template #columnsWrapper let-columns>
-  <div class="board__columns">
-    <app-column *ngFor="let column of columns" [column]="column"></app-column>
+  <div class="board__columns" cdkDropListGroup>
+    <app-column *ngFor="let column of columns;" [column]="column"></app-column>
   </div>
 </ng-template>
 
