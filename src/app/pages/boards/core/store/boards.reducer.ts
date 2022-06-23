@@ -22,10 +22,11 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(boardActions.addNewBoard, (state) => ({...state, isSavingBoard: true})),
+  on(boardActions.addNewBoard, (state) => ({...state, isSavingBoard: true, isBoardSaved: false})),
   on(boardActions.addNewBoardSuccess, (state, action) => ({
     ...state,
     isSavingBoard: false,
+    isBoardSaved: true,
     boards: [...state.boards, { ...action.board, isFullyLoaded: true}]
   })),
   on(boardActions.addNewBoardFailure, (state) => ({...state, isSavingBoard: false})),
@@ -62,8 +63,12 @@ export const reducer = createReducer(
   }),
   on(boardActions.selectBoard, (state, action) => ({...state, currentBoardId: action.board!.id})),
   on(boardActions.unselectBoard, (state) => ({...state, currentBoardId: undefined})),
+  on(boardActions.updateBoard, (state) => ({...state, isSavingBoard: true, isBoardSaved: false})),
   on(boardActions.updateBoardSuccess, (state, action) => ({
-    ...state, boards: [...state.boards.map(board => {
+    ...state,
+    isSavingBoard: false,
+    isBoardSaved: true,
+    boards: [...state.boards.map(board => {
       return board.id === action.board.id ? action.board : board;
     })],
     currentBoard: {...action.board}

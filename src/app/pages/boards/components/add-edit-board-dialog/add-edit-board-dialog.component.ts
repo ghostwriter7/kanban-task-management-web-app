@@ -8,7 +8,7 @@ import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
   selector: 'app-add-edit-board-dialog',
   templateUrl: './add-edit-board-dialog.component.html',
   styleUrls: ['./add-edit-board-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddEditBoardDialogComponent implements OnInit {
   @Input() mode: DialogMode = DialogMode.Add;
@@ -21,7 +21,8 @@ export class AddEditBoardDialogComponent implements OnInit {
 
   constructor(
     private boardStoreFacade: BoardsStoreFacade,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -42,15 +43,15 @@ export class AddEditBoardDialogComponent implements OnInit {
     const board = this.form.value;
     board.columns = board.columns.filter(Boolean);
 
-    this.mode === DialogMode.Add ?
-    this.boardStoreFacade.addNewBoard(board)
-  : this.boardStoreFacade.updateBoard(board)
+    this.mode === DialogMode.Add
+      ? this.boardStoreFacade.addNewBoard(board)
+      : this.boardStoreFacade.updateBoard(board)
   }
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
       name: this.formBuilder.control('', [Validators.required]),
-      columns: this.formBuilder.array([this.formBuilder.control('', [Validators.required])], [Validators.required])
+      columns: this.formBuilder.array([this.formBuilder.control('', [Validators.required])], [Validators.required]),
     });
   }
 
@@ -62,7 +63,7 @@ export class AddEditBoardDialogComponent implements OnInit {
       board?.columns.forEach(column => {
         columns.push(new FormControl(column, Validators.required));
       });
-      this.form.patchValue({ name: board?.name});
+      this.form.patchValue({name: board?.name});
     });
   }
 }

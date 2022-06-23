@@ -17,6 +17,13 @@
     transform: translateX(-300px);
   }
 
+  &__loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height:150px;
+  }
+
   &__boards {
     list-style-type: none;
     padding: 0;

@@ -2,7 +2,7 @@
   <div class="sidebar__main">
     <h4>ALL BOARDS ({{ numberOfBoards$ | async}})</h4>
     <ul class="sidebar__boards">
-      <div *ngIf="isLoadingBoards$ | async" style="display: flex; align-items: center; justify-content: center; min-height:150px;">
+      <div *ngIf="isLoadingBoards$ | async" class="sidebar__loader">
         <app-spinner></app-spinner>
       </div>
       <ng-container *ngIf="boards$ | async as boards">
