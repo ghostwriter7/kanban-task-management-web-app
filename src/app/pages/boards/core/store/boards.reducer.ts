@@ -7,12 +7,16 @@ export interface State {
   boards: Board[];
   tasks: {[key: string]: Task[]};
   currentBoardId?: string;
+  isLoaded: boolean;
+  isLoadingBoards: boolean;
   isSavingBoard: boolean;
 }
 
 export const initialState: State = {
   boards: [],
   tasks: {},
+  isLoaded: false,
+  isLoadingBoards: false,
   isSavingBoard: false,
 };
 
@@ -47,7 +51,8 @@ export const reducer = createReducer(
     delete tasks[boardId][index];
     return { ...state, tasks }
   }),
-  on(boardActions.loadBoardsSuccess, (state, action) => ({...state, boards: [...state.boards, ...action.boards.map(board => ({ ...board, isFullyLoaded: false}))]})),
+  on(boardActions.loadBoards, (state) => ({...state, isLoadingBoards: true})),
+  on(boardActions.loadBoardsSuccess, (state, action) => ({...state, isLoadingBoards: false, isLoaded: true, boards: [...state.boards, ...action.boards.map(board => ({ ...board, isFullyLoaded: false}))]})),
   on(boardActions.loadTasksSuccess, (state, action) => {
     const boards = cloneDeep(state.boards);
     boards.find(board => board.id === state.currentBoardId)!.isFullyLoaded = true;

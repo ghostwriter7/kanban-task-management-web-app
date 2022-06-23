@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {map, Observable, pluck} from 'rxjs';
+import {filter, map, Observable, pluck} from 'rxjs';
 import {
   getCurrentBoard,
   getCurrentBoardIndex, getCurrentTasks,
-  getNumberOfBoards,
-  isSavingBoard
+  getNumberOfBoards, isLoadingBoards,
+  isSavingBoard,
 } from '../../../../core/store/app.reducer';
 import * as fromApp from '../../../../core/store/app.reducer';
 import {Board, Column, Task} from '../interfaces';
@@ -16,11 +16,12 @@ import * as boardActions from './boards.actions';
   providedIn: 'root'
 })
 export class BoardsStoreFacade {
-  boards$: Observable<Board[]> = this.store.pipe(select(state => state.boards.boards));
+  boards$: Observable<Board[]> = this.store.pipe(pluck('boards'), filter(boards => boards.isLoaded), pluck('boards'));
   currentBoard$: Observable<Board | undefined> = this.store.pipe(select(getCurrentBoard));
   currentBoardIndex$: Observable<number> = this.store.pipe(select(getCurrentBoardIndex));
   currentColumns$: Observable<Column[]> = this.store.pipe(select(getCurrentBoard)).pipe(pluck('columns')) as Observable<Column[]>;
   currentTasks$: Observable<Task[]> = this.store.pipe(select(getCurrentTasks));
+  isLoadingBoards$: Observable<boolean> = this.store.pipe(select(isLoadingBoards));
   isSavingBoard$: Observable<boolean> = this.store.pipe(select(isSavingBoard));
   numberOfBoards$: Observable<number> = this.store.pipe(select(getNumberOfBoards));
   statuses$: Observable<string[]> = this.currentBoard$.pipe(pluck('columns')) as Observable<string[]>;

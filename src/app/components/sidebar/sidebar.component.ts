@@ -21,6 +21,7 @@ export class SidebarComponent implements OnInit {
   boards$: Observable<Board[]> = this.boardsStoreFacade.boards$;
   currentBoardIndex$: Observable<number> = this.boardsStoreFacade.currentBoardIndex$;
   currentTheme$: Observable<Theme> = this.layoutStoreFacade.getTheme$;
+  isLoadingBoards$: Observable<boolean> = this.boardsStoreFacade.isLoadingBoards$;
   isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.getIsSidenavClosed$;
   numberOfBoards$: Observable<number> = this.boardsStoreFacade.numberOfBoards$;
 

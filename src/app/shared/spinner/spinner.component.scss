@@ -1,10 +1,10 @@
 .lds-spinner {
-  color: var(--clr-light);
+  color: var(--bg-primary);
   display: inline-block;
   position: absolute;
   width: 80px;
   height: 80px;
-
+  transform: translate(-50%, -50%);
 }
 
 .lds-spinner div {
@@ -20,7 +20,7 @@
   width: 6px;
   height: 18px;
   border-radius: 20%;
-  background: #fff;
+  background: var(--bg-primary);
 }
 .lds-spinner div:nth-child(1) {
   transform: rotate(0deg);

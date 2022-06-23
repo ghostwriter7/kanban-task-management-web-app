@@ -31,6 +31,10 @@ export const getCurrentTasks = createSelector(
   selectBoard,
   (state) => state.tasks[state.currentBoardId!]
 );
+export const isLoadingBoards = createSelector(
+  selectBoard,
+  (state) => state.isLoadingBoards
+);
 export const isSavingBoard = createSelector(
   selectBoard,
   (state) => state.isSavingBoard
