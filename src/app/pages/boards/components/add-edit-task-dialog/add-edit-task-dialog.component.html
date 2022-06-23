@@ -1,30 +1,41 @@
 <app-modal>
-  <h2>{{ mode === 'ADD' ? 'Add New' : 'Edit' }} Task</h2>
-  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form__control">
-      <label class="form__label">Title</label>
-      <input formControlName="title" type="text" class="form__input" placeholder="e.g. Take coffee break">
-    </div>
-    <div class="form__control">
-      <label class="form__label">Description</label>
-      <textarea formControlName="description" class="form__input" placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little"></textarea>
-    </div>
-    <div class="form__control" formArrayName="subtasks">
-      <label class="form__label">Subtasks</label>
-      <p *ngIf="!subtaskControls.length" class="text--large text--secondary" style="margin-top: 0">There are no subtasks. Add your first one!</p>
-      <div class="form__array-item" *ngFor="let task of subtaskControls; let i = index;">
-        <input [formControlName]="i" type="text" class="form__input" placeholder="e.g. Make coffee">
-        <button (click)="onDeleteSubtask(i)" class="icon icon--times"></button>
+  <div class="task">
+
+
+    <h2>{{ mode === 'ADD' ? 'Add New' : 'Edit' }} Task</h2>
+    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form__control">
+        <label class="form__label">Title</label>
+        <input formControlName="title" type="text" class="form__input" placeholder="e.g. Take coffee break">
       </div>
-      <button (click)="onAddSubtask()" class="button button--secondary" type="button">
-        <i class="icon icon--add icon--primary-clr"></i>
-        Add New Subtask
+      <div class="form__control">
+        <label class="form__label">Description</label>
+        <textarea formControlName="description" class="form__input"
+                  placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little"></textarea>
+      </div>
+      <div class="form__control" formArrayName="subtasks">
+        <label class="form__label">Subtasks</label>
+        <p *ngIf="!subtaskControls.length" class="text--large text--secondary" style="margin-top: 0">There are no
+          subtasks. Add your first one!</p>
+        <div class="task__subtasks">
+          <div class="form__array-item" *ngFor="let task of subtaskControls; let i = index;">
+            <input [formControlName]="i" type="text" class="form__input" placeholder="e.g. Make coffee">
+            <button (click)="onDeleteSubtask(i)" class="icon icon--times"></button>
+          </div>
+        </div>
+
+        <button (click)="onAddSubtask()" class="button button--secondary" type="button">
+          <i class="icon icon--add icon--primary-clr"></i>
+          Add New Subtask
+        </button>
+      </div>
+      <div class="form__control" style="margin-top: 24px;">
+        <label class="form__label">Status</label>
+        <app-dropdown formControlName="status" [options$]="boardsStoreFacade.statuses$"></app-dropdown>
+      </div>
+      <button [disabled]="form.invalid" class="button button--primary" style="margin-top: 24px; width: 100%;"
+              type="submit">{{mode === 'ADD' ? 'Create' : 'Update'}} Task
       </button>
-    </div>
-    <div class="form__control" style="margin-top: 24px;">
-      <label class="form__label">Status</label>
-      <app-dropdown formControlName="status" [options$]="boardsStoreFacade.statuses$"></app-dropdown>
-    </div>
-    <button [disabled]="form.invalid" class="button button--primary" style="margin-top: 24px; width: 100%;" type="submit">{{mode === 'ADD' ? 'Create' : 'Update'}} Task</button>
-  </form>
+    </form>
+  </div>
 </app-modal>

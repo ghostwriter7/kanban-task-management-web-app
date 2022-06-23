@@ -60,9 +60,10 @@ export class AddEditTaskDialogComponent implements OnInit {
 
   private populateForm() {
     this.mode = DialogMode.Edit;
-    (this.form.get('subtasks') as FormArray).clear();
+    const subtasks = this.form.get('subtasks') as FormArray;
+    subtasks.clear();
     this.task!.subtasks?.forEach(subtask => {
-      (this.form.get('subtasks') as FormArray).push(this.formBuilder.control((subtask as Subtask).title, Validators.required));
+     subtasks.push(this.formBuilder.control((subtask as Subtask).title, Validators.required));
     });
 
     this.form.patchValue({ title: this.task!.title, description: this.task!.description, status: this.task!.status });
