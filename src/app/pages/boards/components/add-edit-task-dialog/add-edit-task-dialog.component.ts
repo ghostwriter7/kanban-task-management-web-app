@@ -9,7 +9,7 @@ import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
   selector: 'app-add-edit-task-dialog',
   templateUrl: './add-edit-task-dialog.component.html',
   styleUrls: ['./add-edit-task-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddEditTaskDialogComponent implements OnInit {
   form!: FormGroup;
@@ -26,7 +26,8 @@ export class AddEditTaskDialogComponent implements OnInit {
 
   constructor(
     public boardsStoreFacade: BoardsStoreFacade,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -45,8 +46,18 @@ export class AddEditTaskDialogComponent implements OnInit {
 
 
   onSubmit() {
-      const task = this.form.value;
-      this.boardsStoreFacade.createTask(task);
+    const task = this.form.value;
+
+    if (this.mode === DialogMode.Edit && Array.isArray(this.task!.subtasks) && this.task!.subtasks.length) {
+      task.subtasks = (task.subtasks as string[])?.map((subtask, idx) => {
+        return (this.task!.subtasks[idx] as Subtask)?.title === subtask ? this.task!.subtasks[idx] : { title: subtask, completed: false };
+      });
+      task.id = this.task!.id;
+    }
+
+    this.mode === DialogMode.Add
+      ? this.boardsStoreFacade.createTask(task)
+      : this.boardsStoreFacade.updateTask(task);
   }
 
   private buildForm(): void {
@@ -54,7 +65,7 @@ export class AddEditTaskDialogComponent implements OnInit {
       title: this.formBuilder.control('', Validators.required),
       description: this.formBuilder.control('', Validators.required),
       subtasks: this.formBuilder.array([this.formBuilder.control('', Validators.required)]),
-      status: this.formBuilder.control('', Validators.required)
+      status: this.formBuilder.control('', Validators.required),
     });
   }
 
@@ -63,9 +74,9 @@ export class AddEditTaskDialogComponent implements OnInit {
     const subtasks = this.form.get('subtasks') as FormArray;
     subtasks.clear();
     this.task!.subtasks?.forEach(subtask => {
-     subtasks.push(this.formBuilder.control((subtask as Subtask).title, Validators.required));
+      subtasks.push(this.formBuilder.control((subtask as Subtask).title, Validators.required));
     });
 
-    this.form.patchValue({ title: this.task!.title, description: this.task!.description, status: this.task!.status });
+    this.form.patchValue({title: this.task!.title, description: this.task!.description, status: this.task!.status});
   }
 }

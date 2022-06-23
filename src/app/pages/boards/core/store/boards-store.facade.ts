@@ -41,8 +41,8 @@ export class BoardsStoreFacade {
     this.store.dispatch(boardActions.deleteBoard());
   }
 
-  deleteTask(task: Task, index: number): void {
-    this.store.dispatch(boardActions.deleteTask({task, index}));
+  deleteTask(task: Task): void {
+    this.store.dispatch(boardActions.deleteTask({task}));
   }
 
   getCurrentTasks(column: string): Observable<Task[]> {
@@ -65,7 +65,7 @@ export class BoardsStoreFacade {
     this.store.dispatch(boardActions.updateBoard({board}));
   }
 
-  updateTask(task: Task, index: number): void {
-    this.store.dispatch(boardActions.updateTask({task, index}));
+  updateTask(task: Task): void {
+    this.store.dispatch(boardActions.updateTask({task}));
   }
 }

@@ -15,8 +15,8 @@ export const deleteBoardCancelled = createAction('[Confirmed Dialog] Delete Boar
 export const deleteBoardSuccess = createAction('[Firebase] Delete Board Success', props<{id: string}>());
 export const deleteBoardError = createAction('[Firebase] Delete Board Error', props<{error: any}>());
 
-export const deleteTask = createAction('[Task Page] Delete Task', props<{ task: Task, index: number}>());
-export const deleteTaskSuccess = createAction('[Firebase] Delete Task Success', props<{ boardId: string, index: number}>());
+export const deleteTask = createAction('[Task Page] Delete Task', props<{ task: Task}>());
+export const deleteTaskSuccess = createAction('[Firebase] Delete Task Success', props<{ boardId: string, taskId: string}>());
 export const deleteTaskFailure = createAction('[Firebase] Delete Task Failure', props<{error: any}>());
 
 export const loadBoard = createAction('[Board Page] Load Board', props<{ boardId: number }>());
@@ -35,6 +35,6 @@ export const updateBoard = createAction('[Edit Board Dialog] Update Board', prop
 export const updateBoardSuccess = createAction('[Firebase] Update Board Success', props<{ board: Board}>());
 export const updateBoardFailure = createAction('[Firebase] Update Board Failure', props<{error: any}>());
 
-export const updateTask = createAction('[Task Preview] Update Task', props<{ task: Task, index: number}>());
-export const updateTaskSuccess = createAction('[Firebase] Update Task Success', props<{ task: Task, index: number}>());
+export const updateTask = createAction('[Task Preview] Update Task', props<{ task: Task}>());
+export const updateTaskSuccess = createAction('[Firebase] Update Task Success', props<{ task: Task}>());
 export const updateTaskFailure = createAction('[Firebase] Update Task Failure', props<{ error: any}>());

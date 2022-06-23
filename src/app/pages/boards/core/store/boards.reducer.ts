@@ -41,8 +41,9 @@ export const reducer = createReducer(
       tasks
     }
   }),
-  on(boardActions.deleteTaskSuccess, (state, {boardId, index}) => {
+  on(boardActions.deleteTaskSuccess, (state, {boardId, taskId }) => {
     const tasks = cloneDeep(state.tasks);
+    const index = tasks[state.currentBoardId!].findIndex(task => task.id === taskId);
     delete tasks[boardId][index];
     return { ...state, tasks }
   }),
@@ -64,7 +65,8 @@ export const reducer = createReducer(
   })),
   on(boardActions.updateTaskSuccess, (state, action) => {
     const tasks = cloneDeep(state.tasks);
-    tasks[state.currentBoardId!][action.index] = action.task;
+    const index = tasks[state.currentBoardId!].findIndex(task => task.id === action.task.id);
+    tasks[state.currentBoardId!][index] = action.task;
     return { ...state, tasks };
   })
 );

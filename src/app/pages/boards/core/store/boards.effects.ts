@@ -69,11 +69,11 @@ export class BoardsEffects {
   deleteTask$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.deleteTask),
     withLatestFrom(this.boardsStoreFacade.currentBoard$),
-    mergeMap(([{task, index}, board]) => {
+    mergeMap(([{task}, board]) => {
       return from(this.db.doc(`boards/${board!.id}/tasks/${task.id}`).delete()).pipe(
         map(() =>{
           this.modalService.close();
-          return  boardsActions.deleteTaskSuccess({boardId: board!.id, index})
+          return  boardsActions.deleteTaskSuccess({boardId: board!.id, taskId: task.id!})
         }),
         catchError(error => of(boardsActions.deleteTaskFailure({error}))),
       );
@@ -129,9 +129,9 @@ export class BoardsEffects {
   updateTask$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.updateTask),
     withLatestFrom(this.boardsStoreFacade.currentBoard$),
-    switchMap(([{task, index}, board]) => {
+    switchMap(([{task}, board]) => {
       return from(this.db.doc(`boards/${board!.id}/tasks/${task.id}`).update(task)).pipe(
-        map(() => boardsActions.updateTaskSuccess({task, index})),
+        map(() => boardsActions.updateTaskSuccess({task})),
         catchError(error => of(boardsActions.updateBoardFailure({error}))),
       );
     }),

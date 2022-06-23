@@ -14,7 +14,6 @@ import {AddEditTaskDialogComponent} from '../add-edit-task-dialog/add-edit-task-
   styleUrls: ['./preview-task.component.scss']
 })
 export class PreviewTaskComponent implements OnInit{
-  @Input() index!: number;
   @Input() task!: Task;
   contextMenu: ContextMenu[] = [
     { label: 'Edit Task', action: this.editTask.bind(this) },
@@ -51,7 +50,7 @@ export class PreviewTaskComponent implements OnInit{
       updatedTask.subtasks = (updatedTask.subtasks as Subtask[]).map((subtask, idx) => ({
         title: subtask.title, completed: subtasks[idx]
       }));
-      this.boardsStoreFacade.updateTask(updatedTask, this.index);
+      this.boardsStoreFacade.updateTask(updatedTask);
     });
   }
 
@@ -65,7 +64,7 @@ export class PreviewTaskComponent implements OnInit{
 
   onDelete(response: boolean) {
     if (response) {
-      this.boardsStoreFacade.deleteTask(this.task, this.index);
+      this.boardsStoreFacade.deleteTask(this.task);
     }
   }
 }
