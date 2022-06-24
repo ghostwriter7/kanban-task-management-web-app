@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Observable} from 'rxjs';
 import {Theme} from '../../core/enums';
 import {ThemeService} from '../../core/services';
@@ -20,15 +19,14 @@ import {BoardsStoreFacade} from '../../pages/boards/core/store/boards-store.faca
 export class SidebarComponent implements OnInit {
   boards$: Observable<Board[]> = this.boardsStoreFacade.boards$;
   currentBoardIndex$: Observable<number> = this.boardsStoreFacade.currentBoardIndex$;
-  currentTheme$: Observable<Theme> = this.layoutStoreFacade.getTheme$;
+  currentTheme$: Observable<Theme> = this.layoutStoreFacade.theme$;
   isLoadingBoards$: Observable<boolean> = this.boardsStoreFacade.isLoadingBoards$;
-  isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.getIsSidenavClosed$;
+  isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.isSidenavClosed$;
   numberOfBoards$: Observable<number> = this.boardsStoreFacade.numberOfBoards$;
 
 
   constructor(
     private boardsStoreFacade: BoardsStoreFacade,
-    private db: AngularFirestore,
     private layoutStoreFacade: LayoutStoreFacade,
     private modalService: ModalService,
     private themeService: ThemeService) {

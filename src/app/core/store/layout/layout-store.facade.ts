@@ -10,8 +10,8 @@ import * as layoutActions from './layout.actions';
   providedIn: 'root'
 })
 export class LayoutStoreFacade {
-  getIsSidenavClosed$: Observable<boolean> = this.store.pipe(select(selectSidenavState));
-  getTheme$: Observable<Theme> = this.store.pipe(select(selectTheme));
+  isSidenavClosed$: Observable<boolean> = this.store.pipe(select(selectSidenavState));
+  theme$: Observable<Theme> = this.store.pipe(select(selectTheme));
 
   constructor(private store: Store<fromApp.State>) {
   }
