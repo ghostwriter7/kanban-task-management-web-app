@@ -1,29 +1,38 @@
-import { TestBed } from '@angular/core/testing';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
-import { AppComponent } from './app.component';
-import {NavbarComponent} from './components/navbar/navbar.component';
-import {SidebarComponent} from './components/sidebar/sidebar.component';
-import {ThemeService} from './core/services';
+import {AppComponent} from './app.component';
+import {createComponentFactory, Spectator} from '@ngneat/spectator/jest';
+import {ModalService} from './core/services/modal.service';
+import {LayoutStoreFacade} from './core/store/layout/layout-store.facade';
 
 describe('AppComponent', () => {
   let store: MockStore;
+  const createComponent = createComponentFactory({
+    component: AppComponent,
+    providers: [LayoutStoreFacade, ModalService, provideMockStore({})],
+  });
+  let spectator: Spectator<AppComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        SidebarComponent,
-        NavbarComponent
-      ],
-      providers: [ThemeService, provideMockStore({})]
-    }).compileComponents();
-
-    store = TestBed.inject(MockStore);
+  beforeEach(() => {
+    spectator = createComponent();
+    store = spectator.inject(MockStore);
   });
 
+  // beforeEach(async () => {
+  //   await TestBed.configureTestingModule({
+  //     declarations: [
+  //       AppComponent,
+  //       SidebarComponent,
+  //       NavbarComponent
+  //     ],
+  //     providers: [ThemeService, provideMockStore({})]
+  //   }).compileComponents();
+  //
+  //   store = TestBed.inject(MockStore);
+  // });
+
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
+    // const fixture = TestBed.createComponent(AppComponent);
+    const app = spectator.component;
     expect(app).toBeTruthy();
   });
 
