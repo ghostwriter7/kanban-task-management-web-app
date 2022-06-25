@@ -1,20 +1,25 @@
 import {ActionReducerMap, createSelector} from '@ngrx/store';
 import * as fromLayout from './layout/layout.reducer';
 import * as fromBoards from '../../pages/boards/core/store/boards.reducer';
+import * as fromAuth from '../../pages/auth/core/store/auth.reducer';
 
 export interface State {
+  auth: fromAuth.State,
   layout: fromLayout.State,
   boards: fromBoards.State
 }
 
 export const reducer: ActionReducerMap<State> = {
+  auth: fromAuth.reducer,
   layout: fromLayout.reducer,
   boards: fromBoards.reducer
 };
 
+export const selectAuth = (state: State) => state.auth;
 export const selectLayout = (state: State) => state.layout;
 export const selectBoard = (state: State) => state.boards;
 
+// BOARD SELECTORS
 export const getNumberOfBoards = createSelector(
   selectBoard,
   (state) => state.boards.length
@@ -38,4 +43,10 @@ export const isLoadingBoards = createSelector(
 export const isSavingBoard = createSelector(
   selectBoard,
   (state) => state.isSavingBoard
+);
+
+// AUTH SELECTORS
+export const getIsLoggedIn = createSelector(
+  selectAuth,
+  state => state.isLoggedIn
 );

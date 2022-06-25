@@ -10,4 +10,12 @@
   &--expanded {
     width: 100vw;
   }
+
+  &--auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 100vh;
+  }
 }

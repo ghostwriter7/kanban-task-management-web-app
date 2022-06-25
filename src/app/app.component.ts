@@ -5,6 +5,7 @@ import {PlaceholderDirective} from './core/directives/placeholder.directive';
 import {ThemeService} from './core/services';
 import {ModalService} from './core/services/modal.service';
 import {LayoutStoreFacade} from './core/store/layout/layout-store.facade';
+import {AuthStoreFacade} from './pages/auth/core/store/auth-store.facade';
 import {BoardsStoreFacade} from './pages/boards/core/store/boards-store.facade';
 
 @Component({
@@ -15,9 +16,11 @@ import {BoardsStoreFacade} from './pages/boards/core/store/boards-store.facade';
 export class AppComponent implements OnInit {
   @ViewChild(PlaceholderDirective, {static: true}) placeHolder!: PlaceholderDirective;
   isExpanded$: Observable<boolean> = this.layoutStoreFacade.isSidenavClosed$;
+  isLoggedIn$: Observable<boolean> = this.authStoreFacade.isLoggedIn$;
   isMobile!: boolean;
 
   constructor(
+    private authStoreFacade: AuthStoreFacade,
     private boardsStoreFacade: BoardsStoreFacade,
     private breakpointObserver: BreakpointObserver,
     private layoutStoreFacade: LayoutStoreFacade,
