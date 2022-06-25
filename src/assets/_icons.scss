@@ -22,6 +22,12 @@
     height: 8px;
   }
 
+  &--chevron-down {
+    background: url('./icons/icon-chevron-down.svg');
+    width: 10px;
+    height: 7px;
+  }
+
   &--chevron-up {
     background: url('./icons/icon-chevron-up.svg');
     width: 10px;
@@ -32,6 +38,12 @@
     background: url("./icons/icon-vertical-ellipsis.svg");
     width: 5px;
     height: 20px;
+  }
+
+  &--mobile-logo {
+    background: url("./icons/logo-mobile.svg");
+    width: 24px;
+    height: 25px;
   }
 
   &--logo-dark {

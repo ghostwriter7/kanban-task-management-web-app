@@ -19,8 +19,6 @@ export const deleteTask = createAction('[Task Page] Delete Task', props<{ task: 
 export const deleteTaskSuccess = createAction('[Firebase] Delete Task Success', props<{ boardId: string, taskId: string}>());
 export const deleteTaskFailure = createAction('[Firebase] Delete Task Failure', props<{error: any}>());
 
-export const loadBoard = createAction('[Board Page] Load Board', props<{ boardId: number }>());
-
 export const loadBoards = createAction('[Board Page] Load Boards');
 export const loadBoardsSuccess = createAction('[Firebase] Load Boards Success', props<{boards: Board[]}>());
 export const loadBoardsFailure = createAction('[Firebase] Load Boards Failure', props<{error: any}>());

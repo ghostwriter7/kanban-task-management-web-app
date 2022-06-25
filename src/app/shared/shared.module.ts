@@ -1,5 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {AddButtonComponent} from './add-button/add-button.component';
 import {ModalModule} from './modal.module';
 import {SpinnerComponent} from './spinner/spinner.component';
@@ -10,7 +11,8 @@ import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog/confirm-de
     declarations: [SpinnerComponent, AddButtonComponent, ContextMenuComponent, ConfirmDeleteDialogComponent],
     imports: [
         CommonModule,
-        ModalModule
+        ModalModule,
+        FormsModule,
     ],
   exports: [SpinnerComponent, AddButtonComponent, ContextMenuComponent, ConfirmDeleteDialogComponent]
 })

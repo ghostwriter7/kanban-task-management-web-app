@@ -1,5 +1,6 @@
-<app-navbar></app-navbar>
-<app-sidebar></app-sidebar>
+<app-navbar *ngIf="!isMobile"></app-navbar>
+<app-sidebar *ngIf="!isMobile"></app-sidebar>
+<app-navbar-mobile *ngIf="isMobile"></app-navbar-mobile>
 <main class="container" [class.container--expanded]="isExpanded$ | async">
   <router-outlet></router-outlet>
 </main>

@@ -1,7 +1,6 @@
-import {Component, ElementRef, HostListener, Input, ViewChild} from '@angular/core';
+import {Component, HostListener, Input} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ContextMenu} from '../../core/interfaces';
-
 
 @Component({
   selector: 'app-context-menu',
@@ -9,19 +8,21 @@ import {ContextMenu} from '../../core/interfaces';
   styleUrls: ['./context-menu.component.scss']
 })
 export class ContextMenuComponent {
-  @ViewChild('control', {static: true}) control!: ElementRef<HTMLInputElement>;
+  isOpen = false;
   @HostListener('document:click', ['$event']) onClick(event: MouseEvent) {
-    if (!this.control.nativeElement.checked) { return; }
+    if (!this.isOpen) { return; }
 
-    if (!(event.target as HTMLElement).closest('.context-menu')) {
-        this.toggleContextMenu();
+    if (!(event.target as HTMLElement).closest('.context-menu')
+      || (event.target as HTMLElement).classList.contains('context-menu__item')) {
+      this.isOpen = false;
     }
   }
   @Input() contextMenu!: ContextMenu[];
   @Input() disabled$!: Observable<boolean>;
   contextMenuId = Math.floor(Math.random() * 100);
 
-  toggleContextMenu() {
-    this.control.nativeElement.checked = !this.control.nativeElement.checked;
+  executeAction(action: () => void) {
+    this.isOpen = false;
+    action();
   }
 }

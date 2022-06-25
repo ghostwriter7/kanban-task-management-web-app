@@ -15,7 +15,9 @@ import {AppComponent} from './app.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {SidebarComponent} from './components/sidebar/sidebar.component';
 import {BoardsEffects} from './pages/boards/core/store/boards.effects';
+import {ModalModule} from './shared/modal.module';
 import {SharedModule} from './shared/shared.module';
+import { NavbarMobileComponent } from './components/navbar-mobile/navbar-mobile.component';
 
 @NgModule({
   declarations: [
@@ -23,20 +25,22 @@ import {SharedModule} from './shared/shared.module';
     NavbarComponent,
     SidebarComponent,
     PlaceholderDirective,
+    NavbarMobileComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    StoreModule.forRoot(fromApp.reducer),
-    EffectsModule.forRoot([BoardsEffects]),
-    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    SharedModule,
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        StoreModule.forRoot(fromApp.reducer),
+        EffectsModule.forRoot([BoardsEffects]),
+        StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        SharedModule,
+        ModalModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

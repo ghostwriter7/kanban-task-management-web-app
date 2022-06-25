@@ -30,10 +30,10 @@
       <i class="icon icon--moon"></i>
 
     </div>
-    <div class="sidebar__sidebar-toggle" (click)="toggleSidenav()">
+    <div *ngIf="!isMobile" class="sidebar__sidebar-toggle" (click)="toggleSidenav()">
       <h4 class="sidebar__hide-button"><i class="icon icon--hide"></i> Hide Sidenav</h4>
     </div>
   </div>
 </div>
 
-<i class="sidebar__show-button icon icon--show" (click)="toggleSidenav()"></i>
+<i *ngIf="!isMobile" class="sidebar__show-button icon icon--show" (click)="toggleSidenav()"></i>
