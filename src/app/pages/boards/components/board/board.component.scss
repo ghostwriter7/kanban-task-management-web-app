@@ -20,5 +20,12 @@
 
   &__empty {
     text-align: center;
+
+    @media screen and (max-width: 599px) {
+      h4 {
+        font-size: 15px;
+        line-height: 20px;
+      }
+    }
   }
 }
