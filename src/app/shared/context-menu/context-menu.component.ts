@@ -8,7 +8,6 @@ import {ContextMenu} from '../../core/interfaces';
   styleUrls: ['./context-menu.component.scss']
 })
 export class ContextMenuComponent {
-  isOpen = false;
   @HostListener('document:click', ['$event']) onClick(event: MouseEvent) {
     if (!this.isOpen) { return; }
 
@@ -19,7 +18,9 @@ export class ContextMenuComponent {
   }
   @Input() contextMenu!: ContextMenu[];
   @Input() disabled$!: Observable<boolean>;
+  @Input() rightOffset = 9;
   contextMenuId = Math.floor(Math.random() * 100);
+  isOpen = false;
 
   executeAction(action: () => void) {
     this.isOpen = false;

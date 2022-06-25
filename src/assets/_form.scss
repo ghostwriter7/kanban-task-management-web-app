@@ -3,7 +3,11 @@
   &__control {
     display: flex;
     flex-direction: column;
-    min-width: 416px;
+    width: 100%;
+    //
+    //@media screen and (min-width: 599px) {
+    //  min-width: 416px;
+    //}
   }
 
   &__label {

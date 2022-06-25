@@ -1,8 +1,8 @@
 <app-modal>
   <div class="task">
     <div class="task__header">
+      <app-context-menu [rightOffset]="-169" [contextMenu]="contextMenu"></app-context-menu>
       <h2>{{task.title}}</h2>
-      <app-context-menu [contextMenu]="contextMenu"></app-context-menu>
     </div>
     <p class="text--secondary text--large">{{task.description}}</p>
     <form [formGroup]="form">

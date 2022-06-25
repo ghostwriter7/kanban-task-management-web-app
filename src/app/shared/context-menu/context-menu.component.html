@@ -3,7 +3,7 @@
   <i [class.icon--disactive]="disabled$ | async" class="icon icon--dots icon--active"></i>
 </label>
 
-<div *ngIf="isOpen" class="context-menu" >
+<div *ngIf="isOpen" class="context-menu" [style.right.px]="rightOffset">
   <div
     *ngFor="let item of contextMenu"
     (click)="executeAction(item.action)"

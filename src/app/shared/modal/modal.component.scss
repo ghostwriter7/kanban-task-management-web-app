@@ -16,6 +16,7 @@
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 6px;
   position: relative;
+  width: min(90%, 480px);
 
   &__close-btn {
     position: absolute;
