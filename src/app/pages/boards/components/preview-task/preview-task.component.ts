@@ -19,6 +19,7 @@ export class PreviewTaskComponent implements OnInit{
     { label: 'Edit Task', action: this.editTask.bind(this) },
     { label: 'Delete Task', action: this.toggleConfirmationDialog.bind(this), danger: true }
   ];
+  deleteLabel!: { type: 'Task', name: string};
   form!: FormGroup;
   showConfirmDeleteDialog = false;
 
@@ -34,6 +35,7 @@ export class PreviewTaskComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.deleteLabel = { type: 'Task' as 'Task', name: this.task.title };
     const subtaskControls: FormControl[] = [];
     (this.task.subtasks as Subtask[]).forEach(subtask => {
       subtaskControls.push(this.formBuilder.control(subtask.completed));

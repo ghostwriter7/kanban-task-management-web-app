@@ -41,7 +41,7 @@ export class BoardsEffects {
     ofType(boardsActions.deleteBoard),
     withLatestFrom(this.boardsStoreFacade.currentBoard$),
     switchMap(([_, board]) => {
-      const cmpRef = this.modalService.open<ConfirmDeleteDialogComponent>(ConfirmDeleteDialogComponent);
+      const cmpRef = this.modalService.open<ConfirmDeleteDialogComponent>(ConfirmDeleteDialogComponent, { label: { type: 'Board', name: board!.name}});
       return cmpRef.instance.response$.pipe(take(1), map(response =>
         response ? boardsActions.deleteBoardConfirmed({board: board!}) : boardsActions.deleteBoardCancelled()),
       )

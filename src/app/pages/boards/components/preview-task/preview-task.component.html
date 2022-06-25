@@ -28,5 +28,6 @@
 <app-confirm-delete-dialog
   *ngIf="showConfirmDeleteDialog"
   [closeAction]="this.toggleConfirmationDialog.bind(this)"
+  [label]="deleteLabel"
   (response$)="onDelete($event)">
 </app-confirm-delete-dialog>

@@ -9,6 +9,7 @@ import {ModalComponent} from '../modal/modal.component';
 export class ConfirmDeleteDialogComponent implements OnInit {
   @ViewChild(ModalComponent, { static: true}) modal!: ModalComponent;
   @Input() closeAction?: () => void;
+  @Input() label!: { type: 'Board' | 'Task'; name: string };
   @Output() response$ = new EventEmitter<boolean>();
 
   constructor() { }
