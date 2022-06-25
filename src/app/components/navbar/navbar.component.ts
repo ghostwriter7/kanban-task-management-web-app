@@ -25,9 +25,9 @@ export class NavbarComponent {
     {label: 'Delete Board', action: this.onDeleteBoard.bind(this), danger: true}
   ];
   currentBoard$: Observable<Board | undefined> = this.boardsStoreFacade.currentBoard$;
-  currentTheme$: Observable<Theme> = this.layoutStoreFacade.getTheme$;
+  currentTheme$: Observable<Theme> = this.layoutStoreFacade.theme$;
   disabled$: Observable<boolean> = this.boardsStoreFacade.currentBoard$.pipe(map(board => !board), startWith(true));
-  isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.getIsSidenavClosed$;
+  isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.isSidenavClosed$;
 
   constructor(
     private boardsStoreFacade: BoardsStoreFacade,

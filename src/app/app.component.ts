@@ -12,7 +12,7 @@ import {LayoutStoreFacade} from './core/store/layout/layout-store.facade';
 })
 export class AppComponent implements OnInit {
   @ViewChild(PlaceholderDirective, {static: true}) placeHolder!: PlaceholderDirective;
-  isExpanded$: Observable<boolean> = this.layoutStoreFacade.getIsSidenavClosed$;
+  isExpanded$: Observable<boolean> = this.layoutStoreFacade.isSidenavClosed$;
 
   constructor(
     private layoutStoreFacade: LayoutStoreFacade,
