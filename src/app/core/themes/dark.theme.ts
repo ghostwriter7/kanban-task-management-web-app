@@ -9,5 +9,6 @@ export const DarkTheme: {[key: string]: string} = {
   '--bg-danger': 'rgb(234, 85, 85)',
   '--bg-danger-hover': 'rgb(255, 152, 152)',
   '--bg-primary-box': 'rgb(43, 44, 55)',
-  '--clr-border': 'rgb(62, 63, 78)'
+  '--clr-border': 'rgb(62, 63, 78)',
+  '--gradient': 'linear-gradient(180deg, rgba(43, 44, 55, 0.25) 0%, rgba(43, 44, 55, 0.125) 100%)'
 };

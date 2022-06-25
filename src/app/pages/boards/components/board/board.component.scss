@@ -18,6 +18,18 @@
     overflow-x: scroll;
   }
 
+  &__add-column {
+    height: calc(100% - 39px);
+    margin-top: 39px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--gradient);
+    border-radius: 6px;
+    min-width: 280px;
+    cursor: pointer;
+  }
+
   &__empty {
     text-align: center;
 

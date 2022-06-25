@@ -7,6 +7,10 @@
     filter: invert(41%) sepia(12%) saturate(3443%) hue-rotate(205deg) brightness(91%) contrast(85%);
   }
 
+  &--secondary-clr {
+    filter: invert(57%) sepia(23%) saturate(307%) hue-rotate(177deg) brightness(96%) contrast(80%);
+  }
+
   &--active {
     cursor: pointer;
   }

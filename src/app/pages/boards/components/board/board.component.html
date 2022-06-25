@@ -9,6 +9,9 @@
 <ng-template #columnsWrapper let-columns>
   <div class="board__columns" cdkDropListGroup>
     <app-column *ngFor="let column of columns;" [column]="column"></app-column>
+    <div class="board__add-column" (click)="onAddNewColumn()">
+     <h2 class="text--secondary"><i class="icon icon--add icon--secondary-clr"></i> New Column</h2>
+    </div>
   </div>
 </ng-template>
 
