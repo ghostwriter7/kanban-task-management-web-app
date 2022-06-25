@@ -7,7 +7,7 @@
 
   @media screen and (min-width: 599px) {
     position: absolute;
-    width: 300px;
+    width: min(35%, 300px);
     height: calc(100vh - 115px);
     border: 0 solid var(--clr-border);
     border-right-width: 1px;

@@ -131,7 +131,10 @@ export class BoardsEffects {
     withLatestFrom(this.boardsStoreFacade.currentBoard$),
     switchMap(([{task}, board]) => {
       return from(this.db.doc(`boards/${board!.id}/tasks/${task.id}`).update(task)).pipe(
-        map(() => boardsActions.updateTaskSuccess({task})),
+        map(() => {
+          this.modalService.close();
+          return boardsActions.updateTaskSuccess({task})
+        }),
         catchError(error => of(boardsActions.updateBoardFailure({error}))),
       );
     }),

@@ -5,7 +5,7 @@
   background: var(--bg-primary-box);
 
   &__logo {
-    flex-basis: 300px;
+    min-width: min(35%, 300px);
     background-position-x: 28px;
     transition: 0.4s;
 
