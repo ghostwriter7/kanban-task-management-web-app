@@ -16,7 +16,7 @@
       </ng-container>
       <li class="sidebar__board sidebar__board--add-new" (click)="onAddNewBoard()">
         <i class="icon icon--board icon--primary-clr"></i> <span class="text--highlight"><i
-        class="icon icon--add icon--primary-clr"></i>Create New Board</span>
+        class="icon icon--add icon--primary-clr"></i>{{ isTablet ? '' : 'Create'  }} New Board</span>
       </li>
     </ul>
   </div>

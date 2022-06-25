@@ -1,5 +1,5 @@
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Theme} from '../../core/enums';
 import {ThemeService} from '../../core/services';
@@ -26,20 +26,24 @@ export class SidebarComponent implements OnInit {
   isLoadingBoards$: Observable<boolean> = this.boardsStoreFacade.isLoadingBoards$;
   isMobile!: boolean;
   isSidenavClosed$: Observable<boolean> = this.layoutStoreFacade.isSidenavClosed$;
+  isTablet!: boolean;
   numberOfBoards$: Observable<number> = this.boardsStoreFacade.numberOfBoards$;
 
 
   constructor(
     private boardsStoreFacade: BoardsStoreFacade,
     private breakpointObserver: BreakpointObserver,
+    private changeDetectorRef: ChangeDetectorRef,
     private layoutStoreFacade: LayoutStoreFacade,
     private modalService: ModalService,
     private themeService: ThemeService) {
   }
 
   ngOnInit(): void {
-    this.breakpointObserver.observe([Breakpoints.XSmall]).subscribe(({matches}) => {
-      this.isMobile = matches;
+    this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe(({breakpoints}) => {
+      this.isMobile = breakpoints[Breakpoints.XSmall];
+      this.isTablet = breakpoints[Breakpoints.Small];
+      this.changeDetectorRef.detectChanges();
     });
   }
 

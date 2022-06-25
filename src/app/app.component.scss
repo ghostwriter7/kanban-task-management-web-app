@@ -3,7 +3,8 @@
   padding: 24px;
 
   @media screen and (min-width: 599px) {
-    margin-left: min(35%, 300px);
+    margin-left: auto;
+    width: calc(100vw - min(35%, 300px));
   }
 
   &--expanded {
