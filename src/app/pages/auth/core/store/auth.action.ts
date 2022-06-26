@@ -11,5 +11,3 @@ export const signUpSuccess = createAction('[Firebase] Sign Up Success', props<{ 
 export const signUpFailure = createAction('[Firebase] Sign Up Failure', props<{ error: any}>());
 
 export const logout = createAction('[Sidenav] Logout');
-export const logoutSuccess = createAction('[Firebase] Logout Success');
-export const logoutFailure = createAction('[Firebase] Logout Failure');

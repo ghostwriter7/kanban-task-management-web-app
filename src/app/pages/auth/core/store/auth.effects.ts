@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {Router} from '@angular/router';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {cloneDeep} from 'lodash';
 import {catchError, from, map, of, switchMap, tap} from 'rxjs';
 import {AuthStoreFacade} from './auth-store.facade';
 import * as authActions from './auth.action';
@@ -13,7 +14,7 @@ export class AuthEffects {
     switchMap(({email, password}) => {
       return from(this.auth.createUserWithEmailAndPassword(email, password)).pipe(
         map((userCredential) => {
-          return authActions.signUpSuccess({user: userCredential.user!});
+          return authActions.signUpSuccess({user: cloneDeep(userCredential.user!)});
         }),
         catchError((error) => of(authActions.signUpFailure({error}))),
       );
@@ -25,7 +26,7 @@ export class AuthEffects {
     switchMap(({email, password}) => {
         return from(this.auth.signInWithEmailAndPassword(email, password)).pipe(
           map(userCredential => {
-            return authActions.signInSuccess({user: userCredential.user!})
+            return authActions.signInSuccess({user: cloneDeep(userCredential.user!)})
           }),
           catchError((error) => of(authActions.signInFailure({error}))),
         )
