@@ -16,8 +16,9 @@ export class BoardsEffects {
       return from(this.db.collection<Board>('boards').add(action.board)).pipe(
         map(docRef => {
           this.modalService.close();
-          return boardsActions.addNewBoardSuccess({board: {...action.board, id: docRef.id}})
+          return boardsActions.addNewBoardSuccess({board: {...action.board, id: docRef.id, isFullyLoaded: true}})
         }),
+        tap(({board}) => this.boardsStoreFacade.selectBoard(board)),
         catchError(error => of(boardsActions.addNewBoardFailure({error}))),
       )
     }),

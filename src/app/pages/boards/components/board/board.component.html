@@ -2,6 +2,10 @@
   <div *ngIf="isLoading$ | async" class="board__loader">
     <app-spinner></app-spinner>
   </div>
+  <div *ngIf="noBoards$ | async" class="board__no-boards">
+    <h3 class="text--secondary">There are no boards yet!<br /> Please create one.</h3>
+    <button class="button button--primary" (click)="onCreateBoard()">Create Board</button>
+  </div>
   <ng-container *ngIf="columns$ | async as columns;">
     <ng-template
       [ngTemplateOutletContext]="{ $implicit: columns }"

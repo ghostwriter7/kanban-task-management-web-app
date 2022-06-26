@@ -11,6 +11,15 @@
   height: calc(100vh - 112px);
   position: relative;
 
+  &__no-boards {
+    text-align: center;
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+    }
+  }
+
   &__loader {
     position: absolute;
     width: 100%;
