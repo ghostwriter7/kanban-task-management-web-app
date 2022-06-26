@@ -10,8 +10,8 @@ export const createTaskSuccess = createAction('[Firebase] Create New Task Succes
 export const createTaskFailure = createAction('[Firebase] Create New Task Failure', props<{ error: any}>());
 
 export const deleteBoard = createAction('[Context Menu] Delete Board');
-export const deleteBoardConfirmed = createAction('[Confirmed Dialog] Delete Board Confirmed', props<{ board: Board}>());
-export const deleteBoardCancelled = createAction('[Confirmed Dialog] Delete Board Cancelled');
+export const deleteBoardConfirmed = createAction('[Confirmation Dialog] Delete Board Confirmed', props<{ board: Board}>());
+export const deleteBoardCancelled = createAction('[Confirmation Dialog] Delete Board Cancelled');
 export const deleteBoardSuccess = createAction('[Firebase] Delete Board Success', props<{id: string}>());
 export const deleteBoardError = createAction('[Firebase] Delete Board Error', props<{error: any}>());
 

@@ -12,12 +12,13 @@ import {AddEditBoardDialogComponent} from '../add-edit-board-dialog/add-edit-boa
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
-  columns$: Observable<Column[]> = this.boardStoreFacade.currentColumns$;
+  columns$: Observable<Column[]> = this.boardsStoreFacade.currentColumns$;
 
-  constructor(private boardStoreFacade: BoardsStoreFacade, private modalService: ModalService) {
+  constructor(private boardsStoreFacade: BoardsStoreFacade, private modalService: ModalService) {
   }
 
   ngOnInit(): void {
+    this.boardsStoreFacade.loadBoards();
   }
 
   onAddNewColumn(): void {

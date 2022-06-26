@@ -2,10 +2,11 @@ import {createReducer, on} from '@ngrx/store';
 import {Board, Task} from '../interfaces';
 import * as boardActions from './boards.actions';
 import {cloneDeep} from 'lodash';
+import * as authActions from '../../../auth/core/store/auth.action';
 
 export interface State {
   boards: Board[];
-  tasks: {[key: string]: Task[]};
+  tasks: { [key: string]: Task[] };
   currentBoardId?: string;
   isLoaded: boolean;
   isLoadingBoards: boolean;
@@ -27,7 +28,7 @@ export const reducer = createReducer(
     ...state,
     isSavingBoard: false,
     isBoardSaved: true,
-    boards: [...state.boards, { ...action.board, isFullyLoaded: true}]
+    boards: [...state.boards, {...action.board, isFullyLoaded: true}],
   })),
   on(boardActions.addNewBoardFailure, (state) => ({...state, isSavingBoard: false})),
   on(boardActions.createTaskSuccess, (state, action) => {
@@ -43,23 +44,28 @@ export const reducer = createReducer(
     return {
       ...state,
       boards: [...state.boards.filter(board => board.id !== id)],
-      tasks
+      tasks,
     }
   }),
-  on(boardActions.deleteTaskSuccess, (state, {boardId, taskId }) => {
+  on(boardActions.deleteTaskSuccess, (state, {boardId, taskId}) => {
     const tasks = cloneDeep(state.tasks);
     const index = tasks[state.currentBoardId!].findIndex(task => task.id === taskId);
     delete tasks[boardId][index];
-    return { ...state, tasks }
+    return {...state, tasks}
   }),
   on(boardActions.loadBoards, (state) => ({...state, isLoadingBoards: true})),
-  on(boardActions.loadBoardsSuccess, (state, action) => ({...state, isLoadingBoards: false, isLoaded: true, boards: [...state.boards, ...action.boards.map(board => ({ ...board, isFullyLoaded: false}))]})),
+  on(boardActions.loadBoardsSuccess, (state, action) => ({
+    ...state,
+    isLoadingBoards: false,
+    isLoaded: true,
+    boards: [...state.boards, ...action.boards.map(board => ({...board, isFullyLoaded: false}))],
+  })),
   on(boardActions.loadTasksSuccess, (state, action) => {
     const boards = cloneDeep(state.boards);
     boards.find(board => board.id === state.currentBoardId)!.isFullyLoaded = true;
     const tasks = cloneDeep(state.tasks);
     tasks[state.currentBoardId!] = action.tasks;
-    return { ...state, boards, tasks };
+    return {...state, boards, tasks};
   }),
   on(boardActions.selectBoard, (state, action) => ({...state, currentBoardId: action.board!.id})),
   on(boardActions.unselectBoard, (state) => ({...state, currentBoardId: undefined})),
@@ -71,14 +77,22 @@ export const reducer = createReducer(
     boards: [...state.boards.map(board => {
       return board.id === action.board.id ? action.board : board;
     })],
-    currentBoard: {...action.board}
+    currentBoard: {...action.board},
   })),
   on(boardActions.updateTaskSuccess, (state, action) => {
     const tasks = cloneDeep(state.tasks);
     const index = tasks[state.currentBoardId!].findIndex(task => task.id === action.task.id);
     tasks[state.currentBoardId!][index] = action.task;
-    return { ...state, tasks };
-  })
+    return {...state, tasks};
+  }),
+  on(authActions.logout, (state) => ({
+    boards: [],
+    tasks: {},
+    isLoaded: false,
+    isLoadingBoards: false,
+    isSavingBoard: false,
+    currentBoardId: undefined,
+  })),
 );
 
 

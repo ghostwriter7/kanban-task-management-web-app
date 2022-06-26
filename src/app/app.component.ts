@@ -6,7 +6,6 @@ import {ThemeService} from './core/services';
 import {ModalService} from './core/services/modal.service';
 import {LayoutStoreFacade} from './core/store/layout/layout-store.facade';
 import {AuthStoreFacade} from './pages/auth/core/store/auth-store.facade';
-import {BoardsStoreFacade} from './pages/boards/core/store/boards-store.facade';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +20,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authStoreFacade: AuthStoreFacade,
-    private boardsStoreFacade: BoardsStoreFacade,
     private breakpointObserver: BreakpointObserver,
     private layoutStoreFacade: LayoutStoreFacade,
     private modalService: ModalService,
@@ -29,7 +27,6 @@ export class AppComponent implements OnInit {
 
   }
   ngOnInit() {
-    this.boardsStoreFacade.loadBoards();
     this.breakpointObserver.observe([Breakpoints.XSmall]).subscribe(({matches}) => {
       this.isMobile = matches;
     });
