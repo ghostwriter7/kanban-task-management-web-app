@@ -5,6 +5,7 @@ import {Theme} from '../../core/enums';
 import {ThemeService} from '../../core/services';
 import {ModalService} from '../../core/services/modal.service';
 import {LayoutStoreFacade} from '../../core/store/layout/layout-store.facade';
+import {AuthStoreFacade} from '../../pages/auth/core/store/auth-store.facade';
 import {
   AddEditBoardDialogComponent
 } from '../../pages/boards/components/add-edit-board-dialog/add-edit-board-dialog.component';
@@ -31,6 +32,7 @@ export class SidebarComponent implements OnInit {
 
 
   constructor(
+    private authStoreFacade: AuthStoreFacade,
     private boardsStoreFacade: BoardsStoreFacade,
     private breakpointObserver: BreakpointObserver,
     private changeDetectorRef: ChangeDetectorRef,
@@ -49,6 +51,10 @@ export class SidebarComponent implements OnInit {
 
   onAddNewBoard(): void {
     this.modalService.open(AddEditBoardDialogComponent);
+  }
+
+  onLogout(): void {
+      this.authStoreFacade.logout();
   }
 
   onSelectBoard(board: Board) {

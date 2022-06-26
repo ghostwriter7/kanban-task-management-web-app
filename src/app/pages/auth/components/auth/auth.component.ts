@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs';
+import {Theme} from '../../../../core/enums';
+import {LayoutStoreFacade} from '../../../../core/store/layout/layout-store.facade';
+import {AuthStoreFacade} from '../../core/store/auth-store.facade';
 
 @Component({
   selector: 'app-auth',
@@ -8,16 +12,32 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
+  currentTheme$: Observable<Theme> = this.layoutStoreFacade.theme$;
   form!: FormGroup;
+  isLoading$: Observable<boolean> = this.authStoreFacade.isLoading$;
+  isSignUp!: boolean;
 
   constructor(
-    private route: ActivatedRoute,
+    private authStoreFacade: AuthStoreFacade,
+    private formBuilder: FormBuilder,
+    private layoutStoreFacade: LayoutStoreFacade,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.route.url.subscribe(url => {
-
+    this.route.data.subscribe(({isSignUp}) => {
+      this.isSignUp = isSignUp;
+    });
+    this.form = this.formBuilder.group({
+      email: this.formBuilder.control('', [Validators.required, Validators.email]),
+      password: this.formBuilder.control('', [Validators.required])
     });
   }
 
+  onSubmit() {
+    const { email, password } = this.form.value;
+    this.isSignUp
+      ? this.authStoreFacade.signUp(password, email)
+      : this.authStoreFacade.signIn(password, email);
+  }
 }

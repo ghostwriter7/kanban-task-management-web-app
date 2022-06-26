@@ -21,15 +21,8 @@
     </ul>
   </div>
   <div class="sidebar__actions">
-    <div class="sidebar__theme-toggle">
-      <i class="icon icon--sun"></i>
-      <label class="toggle" *ngIf="currentTheme$ | async as theme">
-        <input type="checkbox" (change)="onToggleTheme()" [checked]="theme === 'Dark'">
-        <span></span>
-      </label>
-      <i class="icon icon--moon"></i>
-
-    </div>
+    <button class="button button--secondary" (click)="onLogout()">Logout</button>
+    <app-theme-toggle></app-theme-toggle>
     <div *ngIf="!isMobile" class="sidebar__sidebar-toggle" (click)="toggleSidenav()">
       <h4 class="sidebar__hide-button"><i class="icon icon--hide"></i> Hide Sidenav</h4>
     </div>
