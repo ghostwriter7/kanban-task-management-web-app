@@ -31,7 +31,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     });
     this.form = this.formBuilder.group({
       email: this.formBuilder.control('', [Validators.required, Validators.email]),
-      password: this.formBuilder.control('', [Validators.required])
+      password: this.formBuilder.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)])
     });
   }
 

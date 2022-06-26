@@ -1,13 +1,9 @@
 .form {
-
   &__control {
     display: flex;
     flex-direction: column;
     width: 100%;
-    //
-    //@media screen and (min-width: 599px) {
-    //  min-width: 416px;
-    //}
+    position: relative;
   }
 
   &__label {
@@ -30,12 +26,27 @@
 
     &:focus {
       border: 1px solid var(--bg-primary);
-
     }
 
     &::placeholder {
       opacity: 0.25;
       color: currentColor;
+    }
+
+    &.ng-touched.ng-invalid {
+      border: 1px solid var(--bg-danger);
+    }
+
+    & + span {
+      color: var(--bg-danger);
+      position: absolute;
+      right: 14px;
+      top: 45%;
+
+      @media screen and (max-width: 599px) {
+        right: 0;
+        top: 91%;
+      }
     }
   }
 

@@ -10,10 +10,19 @@
     <div class="form__control">
       <label class="form__label">E-mail</label>
       <input formControlName="email" type="text" class="form__input" placeholder="e.g. johnny.wick@kanban.com">
+      <ng-container *ngIf="form.get('email')!.invalid && form.get('email')!.touched">
+        <span *ngIf="form.get('email')!.hasError('required')" class="text--mid text--danger">Can't be empty!</span>
+        <span *ngIf="form.get('email')!.hasError('email')" class="text--mid text--danger">Invalid e-mail!</span>
+      </ng-container>
     </div>
     <div class="form__control">
       <label class="form__label">Password</label>
-      <input formControlName="password" type="text" class="form__input" placeholder="e.g. abc1234! (great pass!)">
+      <input formControlName="password" type="password" class="form__input" placeholder="e.g. abc1234! (great pass!)">
+      <ng-container *ngIf="form.get('password')!.invalid && form.get('password')!.touched">
+        <span *ngIf="form.get('password')!.hasError('required')" class="text--mid text--danger">Can't be empty!</span>
+        <span *ngIf="form.get('password')!.hasError('minlength')" class="text--mid text--danger">Can't be shorter than 6 chars!</span>
+        <span *ngIf="form.get('password')!.hasError('maxlength')" class="text--mid text--danger">Can't be longer than 20 chars!</span>
+      </ng-container>
     </div>
     <div class="auth__actions">
       <p class="text text--secondary text--mid">
