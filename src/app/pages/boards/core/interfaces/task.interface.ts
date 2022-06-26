@@ -1,6 +1,7 @@
 import {Subtask} from './subtask.interface';
 
 export interface Task {
+  author: string;
   id?: string;
   title: string;
   description: string;

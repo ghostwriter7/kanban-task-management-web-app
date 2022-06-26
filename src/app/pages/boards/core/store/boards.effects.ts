@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, delay, EMPTY, finalize, from, map, mergeMap, of, switchMap, take, tap, withLatestFrom} from 'rxjs';
@@ -12,11 +13,12 @@ import * as boardsActions from './boards.actions';
 export class BoardsEffects {
   addNewBoard$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.addNewBoard),
-    mergeMap(action => {
-      return from(this.db.collection<Board>('boards').add(action.board)).pipe(
+    withLatestFrom(this.auth.authState),
+    mergeMap(([action, user]) => {
+      return from(this.db.collection<Board>('boards').add({...action.board, author: user!.uid})).pipe(
         map(docRef => {
           this.modalService.close();
-          return boardsActions.addNewBoardSuccess({board: {...action.board, id: docRef.id, isFullyLoaded: true}})
+          return boardsActions.addNewBoardSuccess({board: {...action.board, author: user!.uid, id: docRef.id, isFullyLoaded: true}})
         }),
         tap(({board}) => this.boardsStoreFacade.selectBoard(board)),
         catchError(error => of(boardsActions.addNewBoardFailure({error}))),
@@ -26,12 +28,12 @@ export class BoardsEffects {
 
   createTask$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.createTask),
-    withLatestFrom(this.boardsStoreFacade.currentBoard$),
-    mergeMap(([action, board]) =>
-      from(this.db.collection(`boards/${board!.id}/tasks`).add(action.task)).pipe(
+    withLatestFrom(this.boardsStoreFacade.currentBoard$, this.auth.authState),
+    mergeMap(([action, board, user]) =>
+      from(this.db.collection(`boards/${board!.id}/tasks`).add({...action.task, author: user!.uid})).pipe(
         map(docRef => {
           this.modalService.close();
-          return boardsActions.createTaskSuccess({task: {...action.task, id: docRef.id}});
+          return boardsActions.createTaskSuccess({task: {...action.task, author: user!.uid, id: docRef.id}});
         }),
         catchError(error => of(boardsActions.createTaskFailure({error}))),
       ),
@@ -146,9 +148,10 @@ export class BoardsEffects {
     }),
   ));
 
-  constructor(private actions$: Actions,
-              private boardsStoreFacade: BoardsStoreFacade,
-              private db: AngularFirestore,
-              private modalService: ModalService) {
-  }
+  constructor(
+    private actions$: Actions,
+    private auth: AngularFireAuth,
+    private boardsStoreFacade: BoardsStoreFacade,
+    private db: AngularFirestore,
+    private modalService: ModalService) {}
 }
