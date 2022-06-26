@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import { Observable } from 'rxjs';
+import {AfterViewInit, Component} from '@angular/core';
+import {Observable} from 'rxjs';
 import {DialogMode} from '../../../../core/enums';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Column} from '../../core/interfaces';
@@ -11,18 +11,19 @@ import {AddEditBoardDialogComponent} from '../add-edit-board-dialog/add-edit-boa
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements AfterViewInit {
   columns$: Observable<Column[]> = this.boardsStoreFacade.currentColumns$;
 
-  constructor(private boardsStoreFacade: BoardsStoreFacade, private modalService: ModalService) {
-  }
+  constructor(
+    private boardsStoreFacade: BoardsStoreFacade,
+    private modalService: ModalService
+  ) {}
 
-  ngOnInit(): void {
-    this.boardsStoreFacade.loadBoards();
+  ngAfterViewInit(): void {
+    setTimeout(() => this.boardsStoreFacade.loadBoards());
   }
 
   onAddNewColumn(): void {
-    this.modalService.open(AddEditBoardDialogComponent, { mode: DialogMode.Edit });
+    this.modalService.open(AddEditBoardDialogComponent, {mode: DialogMode.Edit});
   }
-
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, EMPTY, finalize, from, map, mergeMap, of, switchMap, take, tap, withLatestFrom} from 'rxjs';
+import {catchError, delay, EMPTY, finalize, from, map, mergeMap, of, switchMap, take, tap, withLatestFrom} from 'rxjs';
 import {ModalService} from '../../../../core/services/modal.service';
 import {ConfirmDeleteDialogComponent} from '../../../../shared/confirm-delete-dialog/confirm-delete-dialog.component';
 import {Board, Task} from '../interfaces';
@@ -89,6 +89,11 @@ export class BoardsEffects {
           boards.push({...snap.data(), id: snap.id});
         });
         return boardsActions.loadBoardsSuccess({boards});
+      }),
+      tap(({boards}) => {
+        if (boards.length) {
+          this.boardsStoreFacade.selectBoard(boards[0]);
+        }
       }),
       catchError(error => of(boardsActions.loadBoardsFailure({error}))),
     )),

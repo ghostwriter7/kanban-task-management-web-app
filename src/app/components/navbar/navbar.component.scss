@@ -10,7 +10,7 @@
     transition: 0.4s;
 
     &--short {
-      flex-basis: 209px;
+      min-width: min(35%, 209px);
     }
   }
 
