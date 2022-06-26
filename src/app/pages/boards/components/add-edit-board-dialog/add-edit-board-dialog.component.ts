@@ -51,7 +51,7 @@ export class AddEditBoardDialogComponent implements OnInit {
   private buildForm(): void {
     this.form = this.formBuilder.group({
       name: this.formBuilder.control('', [Validators.required]),
-      columns: this.formBuilder.array([this.formBuilder.control('', [Validators.required])], [Validators.required]),
+      columns: this.formBuilder.array([this.formBuilder.control('')]),
     });
   }
 
