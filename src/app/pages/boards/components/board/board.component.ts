@@ -13,6 +13,7 @@ import {AddEditBoardDialogComponent} from '../add-edit-board-dialog/add-edit-boa
 })
 export class BoardComponent implements AfterViewInit {
   columns$: Observable<Column[]> = this.boardsStoreFacade.currentColumns$;
+  isLoading$: Observable<boolean> = this.boardsStoreFacade.isLoadingBoards$;
 
   constructor(
     private boardsStoreFacade: BoardsStoreFacade,

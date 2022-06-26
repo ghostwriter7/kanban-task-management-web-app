@@ -1,4 +1,7 @@
 <div class="board">
+  <div *ngIf="isLoading$ | async" class="board__loader">
+    <app-spinner></app-spinner>
+  </div>
   <ng-container *ngIf="columns$ | async as columns;">
     <ng-template
       [ngTemplateOutletContext]="{ $implicit: columns }"
