@@ -16,11 +16,13 @@
       <input formControlName="password" type="text" class="form__input" placeholder="e.g. abc1234! (great pass!)">
     </div>
     <div class="auth__actions">
-    <p class="text text--secondary text--mid">
-      {{ isSignUp ? 'Do you already have an account?' : 'Do not you have an account yet?'}}
-      <a [routerLink]="isSignUp ? '/auth/sign-in' : '/auth/sign-up'">{{ isSignUp ? 'Sign In' : 'Sign Up'}}</a>
-    </p>
-    <button [disabled]="form.invalid" type="submit" class="button button--primary">{{ isSignUp ? 'Sign Up' : 'Sign In' }}</button>
+      <p class="text text--secondary text--mid">
+        {{ isSignUp ? 'Do you already have an account?' : 'Do not you have an account yet?'}}
+        <a [routerLink]="isSignUp ? '/auth/sign-in' : '/auth/sign-up'">{{ isSignUp ? 'Sign In' : 'Sign Up'}}</a>
+      </p>
+      <p *ngIf="authError$ | async as error" class="text text--danger text--mid">{{error}}</p>
+      <button [disabled]="form.invalid" type="submit"
+              class="button button--primary">{{ isSignUp ? 'Sign Up' : 'Sign In' }}</button>
     </div>
   </form>
   <div class="auth__footer">

@@ -37,6 +37,7 @@ export const reducer = createReducer(
   })),
   on(authActions.logout, (state) => ({
     ...state, isLoggedIn: false, isLoggingIn: false, authError: null, user: undefined
-  }))
+  })),
+  on(authActions.resetErrors, (state) => ({ ...state, authError: null}))
 );
 

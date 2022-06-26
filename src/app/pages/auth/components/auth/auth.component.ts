@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
@@ -11,7 +11,8 @@ import {AuthStoreFacade} from '../../core/store/auth-store.facade';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
+  authError$: Observable<string> = this.authStoreFacade.isAuthError$;
   currentTheme$: Observable<Theme> = this.layoutStoreFacade.theme$;
   form!: FormGroup;
   isLoading$: Observable<boolean> = this.authStoreFacade.isLoading$;
@@ -32,6 +33,10 @@ export class AuthComponent implements OnInit {
       email: this.formBuilder.control('', [Validators.required, Validators.email]),
       password: this.formBuilder.control('', [Validators.required])
     });
+  }
+
+  ngOnDestroy() {
+    this.authStoreFacade.resetErrors();
   }
 
   onSubmit() {
