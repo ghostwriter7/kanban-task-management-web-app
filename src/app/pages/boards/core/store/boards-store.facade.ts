@@ -5,7 +5,7 @@ import {
   getCurrentBoard,
   getCurrentBoardIndex, getCurrentTasks,
   getNumberOfBoards, isLoadingBoards,
-  isSavingBoard,
+  isSavingBoard, isSavingTask,
 } from '../../../../core/store/app.reducer';
 import * as fromApp from '../../../../core/store/app.reducer';
 import {Board, Column, Task} from '../interfaces';
@@ -23,6 +23,7 @@ export class BoardsStoreFacade {
   currentTasks$: Observable<Task[]> = this.store.pipe(select(getCurrentTasks));
   isLoadingBoards$: Observable<boolean> = this.store.pipe(select(isLoadingBoards));
   isSavingBoard$: Observable<boolean> = this.store.pipe(select(isSavingBoard));
+  isSavingTask$: Observable<boolean> = this.store.pipe(select(isSavingTask));
   numberOfBoards$: Observable<number> = this.store.pipe(select(getNumberOfBoards));
   statuses$: Observable<string[]> = this.currentBoard$.pipe(pluck('columns')) as Observable<string[]>;
 
@@ -47,7 +48,7 @@ export class BoardsStoreFacade {
   }
 
   getCurrentTasks(column: string): Observable<Task[]> {
-    return this.currentTasks$.pipe(map(tasks => (tasks || []).filter(task => task.status === column)));
+    return this.currentTasks$.pipe(map(tasks => (tasks || []).filter(task => task?.status === column)));
   }
 
   loadBoards(): void {

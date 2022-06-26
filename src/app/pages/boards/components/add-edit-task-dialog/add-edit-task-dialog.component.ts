@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Observable} from 'rxjs';
 import {DialogMode} from '../../../../core/enums';
 import {Task} from '../../core/interfaces';
 import {Subtask} from '../../core/interfaces/subtask.interface';
@@ -13,6 +14,7 @@ import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
 })
 export class AddEditTaskDialogComponent implements OnInit {
   form!: FormGroup;
+  isSavingTask$: Observable<boolean> = this.boardsStoreFacade.isSavingTask$;
   mode: DialogMode = DialogMode.Add;
   task?: Task;
 

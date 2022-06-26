@@ -1,7 +1,8 @@
 <app-modal>
   <div class="task">
-
-
+    <div *ngIf="isSavingTask$ | async" class="task__loader">
+      <app-spinner></app-spinner>
+    </div>
     <h2>{{ mode === 'ADD' ? 'Add New' : 'Edit' }} Task</h2>
     <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form__control">

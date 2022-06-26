@@ -44,6 +44,10 @@ export const isSavingBoard = createSelector(
   selectBoard,
   (state) => state.isSavingBoard
 );
+export const isSavingTask = createSelector(
+  selectBoard,
+  state => state.isSavingTask
+);
 
 // AUTH SELECTORS
 export const authError = createSelector(

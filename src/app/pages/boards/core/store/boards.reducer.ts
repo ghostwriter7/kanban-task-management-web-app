@@ -11,6 +11,7 @@ export interface State {
   isLoaded: boolean;
   isLoadingBoards: boolean;
   isSavingBoard: boolean;
+  isSavingTask: boolean;
 }
 
 export const initialState: State = {
@@ -19,6 +20,7 @@ export const initialState: State = {
   isLoaded: false,
   isLoadingBoards: false,
   isSavingBoard: false,
+  isSavingTask: false
 };
 
 export const reducer = createReducer(
@@ -31,12 +33,14 @@ export const reducer = createReducer(
     boards: [...state.boards, {...action.board, isFullyLoaded: true}],
   })),
   on(boardActions.addNewBoardFailure, (state) => ({...state, isSavingBoard: false})),
+  on(boardActions.createTask, (state) => ({...state, isSavingTask: true})),
   on(boardActions.createTaskSuccess, (state, action) => {
     const id = state.currentBoardId!;
     const tasks = cloneDeep(state.tasks);
     Array.isArray(tasks[id]) ? tasks[id].push(action.task) : tasks[id] = [action.task];
-    return {...state, tasks};
+    return {...state, isSavingTask: false, tasks};
   }),
+  on(boardActions.createTaskFailure, (state) => ({...state, isSavingTask: false})),
   on(boardActions.deleteBoardSuccess, (state, {id}) => {
     const tasks = cloneDeep(state.tasks);
     delete tasks[id];
@@ -50,7 +54,7 @@ export const reducer = createReducer(
   on(boardActions.deleteTaskSuccess, (state, {boardId, taskId}) => {
     const tasks = cloneDeep(state.tasks);
     const index = tasks[state.currentBoardId!].findIndex(task => task.id === taskId);
-    delete tasks[boardId][index];
+    tasks[boardId].splice(index, 1);
     return {...state, tasks}
   }),
   on(boardActions.loadBoards, (state) => ({...state, isLoadingBoards: true})),
@@ -91,6 +95,7 @@ export const reducer = createReducer(
     isLoaded: false,
     isLoadingBoards: false,
     isSavingBoard: false,
+    isSavingTask: false,
     currentBoardId: undefined,
   })),
 );
