@@ -40,7 +40,7 @@ export class AddEditBoardDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const board = this.form.value;
+    const board = { ...this.form.value };
     board.columns = board.columns.filter(Boolean);
 
     this.mode === DialogMode.Add
