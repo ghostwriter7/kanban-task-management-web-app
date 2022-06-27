@@ -5,6 +5,20 @@
   border-radius: 8px;
   cursor: pointer;
 
+  &:hover {
+    background: var(--bg-primary-hover);
+    outline: 2px dashed var(--bg-primary);
+    outline-offset: -4px;
+
+    h3 {
+      color: var(--bg-primary);
+    }
+
+    p {
+      color: #fff;
+    }
+  }
+
   h3 {
     margin-bottom: 8px;
   }
