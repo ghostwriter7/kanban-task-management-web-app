@@ -85,7 +85,10 @@ export class BoardsEffects {
 
   loadBoards$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.loadBoards),
-    switchMap(() => this.db.collection<Board>('boards').get().pipe(
+    withLatestFrom(this.auth.authState),
+    switchMap(([_, auth]) => this.db.collection<Board>('boards',
+      (ref) => ref.where('author', '==', auth!.uid)
+    ).get().pipe(
       map((snaps) => {
         const boards: Board[] = [];
         snaps.forEach(snap => {
@@ -104,11 +107,13 @@ export class BoardsEffects {
 
   selectBoard$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.selectBoard),
-    switchMap(({board}) => {
+    withLatestFrom(this.auth.authState),
+    switchMap(([{board}, auth]) => {
       if (board!.isFullyLoaded) {
         return EMPTY;
       }
-      return this.db.collection<Task>(`boards/${board!.id}/tasks`).get().pipe(
+      return this.db.collection<Task>(`boards/${board!.id}/tasks`,
+        (ref) => ref.where('author', '==', auth!.uid)).get().pipe(
         map(snaps => {
           const tasks: Task[] = [];
           snaps.forEach(snap => {
