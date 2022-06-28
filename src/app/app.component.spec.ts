@@ -31,7 +31,6 @@ describe('AppComponent', () => {
   // });
 
   it('should create the app', () => {
-    // const fixture = TestBed.createComponent(AppComponent);
     const app = spectator.component;
     expect(app).toBeTruthy();
   });
