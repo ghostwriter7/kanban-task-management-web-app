@@ -2,7 +2,20 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, delay, EMPTY, finalize, from, map, mergeMap, of, switchMap, take, tap, withLatestFrom} from 'rxjs';
+import {
+  catchError,
+  EMPTY,
+  finalize,
+  forkJoin,
+  from,
+  map,
+  mergeMap, Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import {ModalService} from '../../../../core/services/modal.service';
 import {ConfirmDeleteDialogComponent} from '../../../../shared/confirm-delete-dialog/confirm-delete-dialog.component';
 import {Board, Task} from '../interfaces';
@@ -58,8 +71,16 @@ export class BoardsEffects {
 
   deleteBoardConfirmed$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.deleteBoardConfirmed),
-    switchMap(({board: {id}}) => {
-      return from(this.db.doc(`boards/${id}`).delete()).pipe(
+    withLatestFrom(this.boardsStoreFacade.currentTasks$),
+    switchMap(([{board: {id}}, tasks]) => {
+      const deleteTasks: Observable<void>[] = [];
+      tasks.forEach(task => {
+        deleteTasks.push(from(this.db.doc(`boards/${id}/tasks/${task.id}`).delete()));
+      });
+      return forkJoin([
+        from(this.db.doc(`boards/${id}`).delete()),
+        ...deleteTasks
+      ]).pipe(
         map(() => boardsActions.deleteBoardSuccess({id})),
         catchError(error => of(boardsActions.deleteBoardError({error}))),
         finalize(() => {
