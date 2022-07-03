@@ -1,6 +1,5 @@
 import {createAction, props} from '@ngrx/store';
 
-
 export const signIn = createAction('[Auth Page] Sign In', props<{ password: string, email: string}>());
 export const signInSuccess = createAction('[Firebase] Sign In Success');
 export const signInFailure = createAction('[Firebase] Sign In Failure', props<{ error: any }>());

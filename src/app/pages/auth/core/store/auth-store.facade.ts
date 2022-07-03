@@ -33,6 +33,10 @@ export class AuthStoreFacade {
   constructor(private store: Store<fromApp.State>) {
   }
 
+  preserveSession(): void {
+    this.store.dispatch(authActions.signInSuccess());
+  }
+
   signUp(password: string, email: string): void {
     this.store.dispatch(authActions.signUp({password, email}));
   }
