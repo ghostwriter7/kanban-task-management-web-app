@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {CustomControlsModule} from '../../shared/custom-controls/custom-controls.module';
 import {ModalModule} from '../../shared/modal.module';
 import {SharedModule} from '../../shared/shared.module';
@@ -29,7 +30,8 @@ import {PreviewTaskComponent} from './components/preview-task/preview-task.compo
     ReactiveFormsModule,
     SharedModule,
     CustomControlsModule,
-    DragDropModule
+    DragDropModule,
+    FontAwesomeModule,
   ],
 })
 export class BoardsModule {

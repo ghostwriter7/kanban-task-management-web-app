@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {DialogMode, Priority} from '../../../../core/enums';
 import {Task} from '../../core/interfaces';
 import {Subtask} from '../../core/interfaces/subtask.interface';
@@ -16,7 +16,7 @@ export class AddEditTaskDialogComponent implements OnInit {
   form!: FormGroup;
   isSavingTask$: Observable<boolean> = this.boardsStoreFacade.isSavingTask$;
   mode: DialogMode = DialogMode.Add;
-  priorities$: Observable<string[]> = of([Priority.Low, Priority.Medium, Priority.High, Priority.Critical]);
+  priorities$: Observable<Priority[]> = this.boardsStoreFacade.priorities$;
   task?: Task;
 
   get subtaskArray() {

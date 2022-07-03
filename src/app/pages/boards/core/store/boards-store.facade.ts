@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {cloneDeep} from 'lodash';
-import {filter, map, Observable, pluck, take} from 'rxjs';
+import {filter, map, Observable, of, pluck, take} from 'rxjs';
+import {Priority} from '../../../../core/enums';
 import {
   getCurrentBoard,
   getCurrentBoardIndex, getCurrentTasks,
@@ -26,6 +27,7 @@ export class BoardsStoreFacade {
   isSavingBoard$: Observable<boolean> = this.store.pipe(select(isSavingBoard));
   isSavingTask$: Observable<boolean> = this.store.pipe(select(isSavingTask));
   numberOfBoards$: Observable<number> = this.store.pipe(select(getNumberOfBoards));
+  priorities$: Observable<Priority[]> = of([Priority.Low, Priority.Medium, Priority.High, Priority.Critical]);
   statuses$: Observable<string[]> = this.currentBoard$.pipe(pluck('columns')) as Observable<string[]>;
 
   constructor(private store: Store<fromApp.State>) {

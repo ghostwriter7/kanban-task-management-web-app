@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {cloneDeep} from 'lodash';
+import {Observable} from 'rxjs';
+import {Priority} from '../../../../core/enums';
 import {ContextMenu} from '../../../../core/interfaces';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Task} from '../../core/interfaces';
@@ -21,6 +23,7 @@ export class PreviewTaskComponent implements OnInit{
   ];
   deleteLabel!: { type: 'Task', name: string};
   form!: FormGroup;
+  priorities$: Observable<Priority[]> = this.boardsStoreFacade.priorities$;
   showConfirmDeleteDialog = false;
 
   get completed() {
@@ -42,16 +45,18 @@ export class PreviewTaskComponent implements OnInit{
     });
 
     this.form = this.formBuilder.group({
+      priority: this.formBuilder.control(this.task.priority),
       subtasks: this.formBuilder.array(subtaskControls),
       status: this.formBuilder.control(this.task.status)
     });
 
-    this.form.valueChanges.subscribe(({status, subtasks}) => {
+    this.form.valueChanges.subscribe(({priority, status, subtasks}) => {
       const updatedTask = cloneDeep(this.task);
       updatedTask.status = status;
       updatedTask.subtasks = (updatedTask.subtasks as Subtask[]).map((subtask, idx) => ({
         title: subtask.title, completed: subtasks[idx]
       }));
+      updatedTask.priority = priority;
       this.boardsStoreFacade.updateTask(updatedTask);
     });
   }

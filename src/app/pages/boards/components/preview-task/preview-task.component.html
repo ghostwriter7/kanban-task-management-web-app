@@ -22,6 +22,14 @@
           [options$]="boardsStoreFacade.statuses$">
         </app-dropdown>
       </div>
+      <div class="task__status form__control" style="margin-top: 24px;">
+        <label class="form__label">Current priority</label>
+        <app-dropdown
+          formControlName="priority"
+          [selected]="task.priority"
+          [options$]="priorities$">
+        </app-dropdown>
+      </div>
     </form>
   </div>
 </app-modal>

@@ -20,6 +20,7 @@ import {BoardsEffects} from './pages/boards/core/store/boards.effects';
 import {ModalModule} from './shared/modal.module';
 import {SharedModule} from './shared/shared.module';
 import { NavbarMobileComponent } from './components/navbar-mobile/navbar-mobile.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { NavbarMobileComponent } from './components/navbar-mobile/navbar-mobile.
         AngularFireAuthModule,
         SharedModule,
         ModalModule,
+        FontAwesomeModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

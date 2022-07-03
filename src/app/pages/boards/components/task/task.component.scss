@@ -4,6 +4,21 @@
   box-shadow: 0 4px 6px rgba(54, 78, 126, 0.101545);
   border-radius: 8px;
   cursor: pointer;
+  position: relative;
+
+  &__priority {
+    position: absolute;
+    right: 16px;
+    top: 23px;
+
+    &--critical {
+      color: var(--bg-danger);
+    }
+
+    &--high {
+      color: var(--bg-danger-hover)
+    }
+  }
 
   &:hover {
     background: var(--bg-primary-hover);
