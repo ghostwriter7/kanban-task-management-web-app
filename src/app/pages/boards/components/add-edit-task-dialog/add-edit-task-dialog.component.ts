@@ -60,7 +60,7 @@ export class AddEditTaskDialogComponent implements OnInit {
 
     this.mode === DialogMode.Add
       ? this.boardsStoreFacade.createTask(task)
-      : this.boardsStoreFacade.updateTask(task);
+      : this.boardsStoreFacade.updateTask(task, true);
   }
 
   private buildForm(): void {

@@ -33,6 +33,10 @@ export const updateBoard = createAction('[Edit Board Dialog] Update Board', prop
 export const updateBoardSuccess = createAction('[Firebase] Update Board Success', props<{ board: Board}>());
 export const updateBoardFailure = createAction('[Firebase] Update Board Failure', props<{error: any}>());
 
-export const updateTask = createAction('[Task Preview] Update Task', props<{ task: Task}>());
+export const updateTask = createAction('[Task Preview] Update Task', props<{ task: Task, closeModal?: boolean}>());
 export const updateTaskSuccess = createAction('[Firebase] Update Task Success', props<{ task: Task}>());
 export const updateTaskFailure = createAction('[Firebase] Update Task Failure', props<{ error: any}>());
+
+export const updateMultipleTasks = createAction('[Board Page] Update Multiple Tasks', props<{ updatedTasks: { id: string, task: Task }[]}>());
+export const updateMultipleTasksSuccess = createAction('[Firebase] Update Multiple Tasks Success');
+export const updateMultipleTasksFailure = createAction('[Firebase] Update Multiple Tasks Failure', props<{ error: any}>());

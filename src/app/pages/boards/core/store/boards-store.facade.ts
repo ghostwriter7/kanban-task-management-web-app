@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {filter, map, Observable, pluck} from 'rxjs';
+import {cloneDeep} from 'lodash';
+import {filter, map, Observable, pluck, take} from 'rxjs';
 import {
   getCurrentBoard,
   getCurrentBoardIndex, getCurrentTasks,
@@ -13,7 +14,7 @@ import {Subtask} from '../interfaces/subtask.interface';
 import * as boardActions from './boards.actions';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BoardsStoreFacade {
   boards$: Observable<Board[]> = this.store.pipe(pluck('boards'), filter(boards => boards.isLoaded), pluck('boards'));
@@ -35,7 +36,7 @@ export class BoardsStoreFacade {
   }
 
   createTask(task: Task): void {
-    task.subtasks = task.subtasks.map(subtask => ({ title: subtask, completed: false })) as Subtask[];
+    task.subtasks = task.subtasks.map(subtask => ({title: subtask, completed: false})) as Subtask[];
     this.store.dispatch(boardActions.createTask({task}));
   }
 
@@ -67,7 +68,39 @@ export class BoardsStoreFacade {
     this.store.dispatch(boardActions.updateBoard({board}));
   }
 
-  updateTask(task: Task): void {
-    this.store.dispatch(boardActions.updateTask({task}));
+  updateMultipleTasks(task: Task, prevIndex: number, curIndex: number, previousColumn: string): void {
+    this.store.pipe(select(getCurrentTasks)).pipe(take(1)).subscribe(tasks => {
+      const updatedTasks: { id: string, task: Task }[] = [];
+      if (task.status !== previousColumn) {
+        const oldColumn = cloneDeep(tasks.filter(x => x.status === previousColumn));
+        const newColumn = cloneDeep(tasks.filter(x => x.status === task.status));
+        oldColumn.splice(prevIndex, 1);
+        this.updateIndexes(oldColumn, updatedTasks);
+        newColumn.splice(curIndex, 0, task);
+        this.updateIndexes(newColumn, updatedTasks);
+        if (task.seqNumber === curIndex) {
+          updatedTasks.push({id: task.id!, task});
+        }
+      } else {
+        const column = cloneDeep(tasks.filter(x => x.status === task.status));
+        column.splice(prevIndex, 1);
+        column.splice(curIndex, 0, task);
+        this.updateIndexes(column, updatedTasks);
+      }
+      this.store.dispatch(boardActions.updateMultipleTasks({updatedTasks }));
+    });
+  }
+
+  updateTask(task: Task, closeModal?: boolean): void {
+    this.store.dispatch(boardActions.updateTask({task, closeModal}));
+  }
+
+  private updateIndexes(column: Task[], updatedTasks: { id: string, task: Task }[]): void {
+    column.forEach((task, idx) => {
+      if (task.seqNumber !== idx) {
+        task.seqNumber = idx;
+        updatedTasks.push({ id: task.id!, task});
+      }
+    });
   }
 }

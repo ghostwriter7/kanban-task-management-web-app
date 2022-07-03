@@ -4,7 +4,7 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 import {
-  catchError,
+  catchError, concatMap,
   EMPTY,
   finalize,
   forkJoin,
@@ -55,7 +55,7 @@ export class BoardsEffects {
         return from(this.db.collection(`boards/${board!.id}/tasks`).add({
           ...action.task,
           author: user!.uid,
-          seqNumber
+          seqNumber,
         })).pipe(
           map(docRef => {
             this.modalService.close();
@@ -179,13 +179,30 @@ export class BoardsEffects {
     }),
   ));
 
+  updateMultipleTasks$ = createEffect(() => this.actions$.pipe(
+    ofType(boardsActions.updateMultipleTasks),
+    withLatestFrom(this.boardsStoreFacade.currentBoard$),
+    concatMap(([{updatedTasks}, board]) => {
+      const requests: Observable<void>[] = [];
+      updatedTasks.forEach(({task, id}) => {
+        requests.push(from(this.db.doc(`boards/${board!.id}/tasks/${id}`).update({seqNumber: task.seqNumber, status: task.status})));
+      });
+      return forkJoin(requests).pipe(
+        map(() => boardsActions.updateMultipleTasksSuccess()),
+        catchError((error) => of(boardsActions.updateMultipleTasksFailure({error})))
+      )
+    }),
+  ));
+
   updateTask$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.updateTask),
     withLatestFrom(this.boardsStoreFacade.currentBoard$),
-    switchMap(([{task}, board]) => {
+    switchMap(([{task, closeModal}, board]) => {
       return from(this.db.doc(`boards/${board!.id}/tasks/${task.id}`).update(task)).pipe(
         map(() => {
-          this.modalService.close();
+          if (closeModal) {
+            this.modalService.close();
+          }
           return boardsActions.updateTaskSuccess({task})
         }),
         catchError(error => {

@@ -15,6 +15,6 @@ import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
         ModalModule,
         FormsModule,
     ],
-    exports: [SpinnerComponent, AddButtonComponent, ContextMenuComponent, ConfirmDeleteDialogComponent, ThemeToggleComponent],
+  exports: [SpinnerComponent, AddButtonComponent, ContextMenuComponent, ConfirmDeleteDialogComponent, ThemeToggleComponent],
 })
 export class SharedModule {}

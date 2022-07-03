@@ -89,6 +89,16 @@ export const reducer = createUndoRedoReducer(
     })],
     currentBoard: {...action.board},
   })),
+  on(boardActions.updateMultipleTasks, (state, action) => {
+    const tasks = cloneDeep(state.tasks);
+    action.updatedTasks.forEach(({task: updatedTask}) => {
+      const matchingTask = tasks[state.currentBoardId!].find(task => task.id === updatedTask.id)!;
+      matchingTask.seqNumber = updatedTask.seqNumber;
+      matchingTask.status = updatedTask.status;
+    });
+    tasks[state.currentBoardId!].sort((a,b) => a.seqNumber - b.seqNumber);
+    return { ...state, tasks }
+  }),
   on(boardActions.updateTask, (state, action) => {
     const tasks = cloneDeep(state.tasks);
     const index = tasks[state.currentBoardId!].findIndex(task => task.id === action.task.id);
