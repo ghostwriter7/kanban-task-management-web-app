@@ -4,15 +4,15 @@
       <app-spinner></app-spinner>
     </div>
     <h2>{{ mode === 'ADD' ? 'Add New' : 'Edit' }} Task</h2>
-    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="form__control">
+    <form class="task__form form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form__control" style="grid-area: title">
         <label class="form__label">Title</label>
         <input formControlName="title" type="text" class="form__input" placeholder="e.g. Take coffee break">
         <ng-container *ngIf="form.get('title')!.invalid && form.get('title')!.touched">
           <span *ngIf="form.get('title')!.hasError('required')" class="text--mid text--danger">Can't be empty!</span>
         </ng-container>
       </div>
-      <div class="form__control">
+      <div class="form__control" style="grid-area: description" >
         <label class="form__label">Description</label>
         <textarea formControlName="description" class="form__input"
                   placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little">
@@ -21,7 +21,7 @@
           <span *ngIf="form.get('description')!.hasError('required')" class="text--mid text--danger">Can't be empty!</span>
         </ng-container>
       </div>
-      <div class="form__control" formArrayName="subtasks">
+      <div class="form__control" formArrayName="subtasks" style="grid-area: subtasks">
         <label class="form__label">Subtasks</label>
         <p *ngIf="!subtaskControls.length" class="text--large text--secondary" style="margin-top: 0">There are no
           subtasks. Add your first one!</p>
@@ -40,11 +40,15 @@
           Add New Subtask
         </button>
       </div>
-      <div class="form__control" style="margin-top: 24px;">
+      <div class="form__control" style="margin-top: 24px; grid-area: status">
         <label class="form__label">Status</label>
         <app-dropdown formControlName="status" [options$]="boardsStoreFacade.statuses$"></app-dropdown>
       </div>
-      <button [disabled]="form.invalid" class="button button--primary" style="margin-top: 24px; width: 100%;"
+      <div class="form__control" style="margin-top: 24px; grid-area: priority">
+        <label class="form__label">Priority</label>
+        <app-dropdown formControlName="priority" [options$]="priorities$"></app-dropdown>
+      </div>
+      <button [disabled]="form.invalid" class="button button--primary" style="margin-top: 24px; width: 100%; grid-area: button"
               type="submit">{{mode === 'ADD' ? 'Create' : 'Update'}} Task
       </button>
     </form>

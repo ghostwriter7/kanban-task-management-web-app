@@ -1,8 +1,10 @@
+@import '../assets/media';
+
 .container {
   transition: width 0.4s;
   padding: 24px;
 
-  @media screen and (min-width: 599px) {
+  @include large-view {
     margin-left: auto;
     width: calc(100vw - min(35%, 300px));
   }

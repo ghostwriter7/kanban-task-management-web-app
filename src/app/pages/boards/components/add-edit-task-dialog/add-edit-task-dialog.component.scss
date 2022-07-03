@@ -1,6 +1,25 @@
+@import '../../../../../assets/media';
+
 .task {
-  max-height: 90vh;
   position: relative;
+  @include large-view {
+    max-height: 90vh;
+  }
+
+  &__form {
+    @include large-view {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      grid-template-areas:
+        'title subtasks'
+        'description subtasks'
+        'status priority'
+        'button button';
+      gap: 1rem;
+      min-width: 75vw;
+    }
+  }
 
   &__loader {
     position: absolute;

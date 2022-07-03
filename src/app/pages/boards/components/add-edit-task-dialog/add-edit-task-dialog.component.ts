@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {DialogMode} from '../../../../core/enums';
+import {Observable, of} from 'rxjs';
+import {DialogMode, Priority} from '../../../../core/enums';
 import {Task} from '../../core/interfaces';
 import {Subtask} from '../../core/interfaces/subtask.interface';
 import {BoardsStoreFacade} from '../../core/store/boards-store.facade';
@@ -16,6 +16,7 @@ export class AddEditTaskDialogComponent implements OnInit {
   form!: FormGroup;
   isSavingTask$: Observable<boolean> = this.boardsStoreFacade.isSavingTask$;
   mode: DialogMode = DialogMode.Add;
+  priorities$: Observable<string[]> = of([Priority.Low, Priority.Medium, Priority.High, Priority.Critical]);
   task?: Task;
 
   get subtaskArray() {
@@ -67,6 +68,7 @@ export class AddEditTaskDialogComponent implements OnInit {
     this.form = this.formBuilder.group({
       title: this.formBuilder.control('', Validators.required),
       description: this.formBuilder.control('', Validators.required),
+      priority: this.formBuilder.control('Medium', Validators.required),
       subtasks: this.formBuilder.array([this.formBuilder.control('', Validators.required)]),
       status: this.formBuilder.control('', Validators.required),
     });
@@ -80,6 +82,6 @@ export class AddEditTaskDialogComponent implements OnInit {
       subtasks.push(this.formBuilder.control((subtask as Subtask).title, Validators.required));
     });
 
-    this.form.patchValue({title: this.task!.title, description: this.task!.description, status: this.task!.status});
+    this.form.patchValue({title: this.task!.title, description: this.task!.description, priority: this.task?.priority, status: this.task!.status});
   }
 }
