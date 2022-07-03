@@ -49,24 +49,4 @@ describe('PreviewTaskComponent', () => {
       [{title: 'First subtask', completed: false}, {title: 'Second subtask', completed: true}]));
     expect(spectator.component.completed).toBe(1);
   });
-
-//   let component: PreviewTaskComponent;
-//   let fixture: ComponentFixture<PreviewTaskComponent>;
-//
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       declarations: [ PreviewTaskComponent ]
-//     })
-//     .compileComponents();
-//   });
-//
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(PreviewTaskComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
-//
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
 });

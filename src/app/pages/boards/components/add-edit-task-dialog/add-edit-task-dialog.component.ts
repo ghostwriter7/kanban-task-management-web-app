@@ -55,6 +55,7 @@ export class AddEditTaskDialogComponent implements OnInit {
         return (this.task!.subtasks[idx] as Subtask)?.title === subtask ? this.task!.subtasks[idx] : { title: subtask, completed: false };
       });
       task.id = this.task!.id;
+      task.seqNumber = this.task!.seqNumber;
     }
 
     this.mode === DialogMode.Add

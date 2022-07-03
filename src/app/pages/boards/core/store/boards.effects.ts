@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Store} from '@ngrx/store';
 import {
   catchError,
   EMPTY,
@@ -31,7 +32,14 @@ export class BoardsEffects {
       return from(this.db.collection<Board>('boards').add({...action.board, author: user!.uid})).pipe(
         map(docRef => {
           this.modalService.close();
-          return boardsActions.addNewBoardSuccess({board: {...action.board, author: user!.uid, id: docRef.id, isFullyLoaded: true}})
+          return boardsActions.addNewBoardSuccess({
+            board: {
+              ...action.board,
+              author: user!.uid,
+              id: docRef.id,
+              isFullyLoaded: true,
+            },
+          })
         }),
         tap(({board}) => this.boardsStoreFacade.selectBoard(board)),
         catchError(error => of(boardsActions.addNewBoardFailure({error}))),
@@ -41,15 +49,21 @@ export class BoardsEffects {
 
   createTask$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.createTask),
-    withLatestFrom(this.boardsStoreFacade.currentBoard$, this.auth.authState),
-    mergeMap(([action, board, user]) =>
-      from(this.db.collection(`boards/${board!.id}/tasks`).add({...action.task, author: user!.uid})).pipe(
-        map(docRef => {
-          this.modalService.close();
-          return boardsActions.createTaskSuccess({task: {...action.task, author: user!.uid, id: docRef.id}});
-        }),
-        catchError(error => of(boardsActions.createTaskFailure({error}))),
-      ),
+    withLatestFrom(this.boardsStoreFacade.currentTasks$, this.boardsStoreFacade.currentBoard$, this.auth.authState),
+    mergeMap(([action, tasks, board, user]) => {
+        const seqNumber = (tasks || []).filter(task => task.status === action.task.status).length;
+        return from(this.db.collection(`boards/${board!.id}/tasks`).add({
+          ...action.task,
+          author: user!.uid,
+          seqNumber
+        })).pipe(
+          map(docRef => {
+            this.modalService.close();
+            return boardsActions.createTaskSuccess({task: {...action.task, author: user!.uid, id: docRef.id, seqNumber}});
+          }),
+          catchError(error => of(boardsActions.createTaskFailure({error}))),
+        )
+      },
     ),
   ))
 
@@ -57,7 +71,12 @@ export class BoardsEffects {
     ofType(boardsActions.deleteBoard),
     withLatestFrom(this.boardsStoreFacade.currentBoard$),
     switchMap(([_, board]) => {
-      const cmpRef = this.modalService.open<ConfirmDeleteDialogComponent>(ConfirmDeleteDialogComponent, { label: { type: 'Board', name: board!.name}});
+      const cmpRef = this.modalService.open<ConfirmDeleteDialogComponent>(ConfirmDeleteDialogComponent, {
+        label: {
+          type: 'Board',
+          name: board!.name,
+        },
+      });
       return cmpRef.instance.response$.pipe(take(1), map(response =>
         response ? boardsActions.deleteBoardConfirmed({board: board!}) : boardsActions.deleteBoardCancelled()),
       )
@@ -79,7 +98,7 @@ export class BoardsEffects {
       });
       return forkJoin([
         from(this.db.doc(`boards/${id}`).delete()),
-        ...deleteTasks
+        ...deleteTasks,
       ]).pipe(
         map(() => boardsActions.deleteBoardSuccess({id})),
         catchError(error => of(boardsActions.deleteBoardError({error}))),
@@ -95,9 +114,9 @@ export class BoardsEffects {
     withLatestFrom(this.boardsStoreFacade.currentBoard$),
     mergeMap(([{task}, board]) => {
       return from(this.db.doc(`boards/${board!.id}/tasks/${task.id}`).delete()).pipe(
-        map(() =>{
+        map(() => {
           this.modalService.close();
-          return  boardsActions.deleteTaskSuccess({boardId: board!.id, taskId: task.id!})
+          return boardsActions.deleteTaskSuccess({boardId: board!.id, taskId: task.id!})
         }),
         catchError(error => of(boardsActions.deleteTaskFailure({error}))),
       );
@@ -108,7 +127,7 @@ export class BoardsEffects {
     ofType(boardsActions.loadBoards),
     withLatestFrom(this.auth.authState),
     switchMap(([_, auth]) => this.db.collection<Board>('boards',
-      (ref) => ref.where('author', '==', auth!.uid)
+      (ref) => ref.where('author', '==', auth!.uid),
     ).get().pipe(
       map((snaps) => {
         const boards: Board[] = [];
@@ -134,7 +153,7 @@ export class BoardsEffects {
         return EMPTY;
       }
       return this.db.collection<Task>(`boards/${board!.id}/tasks`,
-        (ref) => ref.where('author', '==', auth!.uid)).get().pipe(
+        (ref) => ref.orderBy('seqNumber').where('author', '==', auth!.uid)).get().pipe(
         map(snaps => {
           const tasks: Task[] = [];
           snaps.forEach(snap => {
@@ -169,7 +188,10 @@ export class BoardsEffects {
           this.modalService.close();
           return boardsActions.updateTaskSuccess({task})
         }),
-        catchError(error => of(boardsActions.updateBoardFailure({error}))),
+        catchError(error => {
+          this.store.dispatch({type: 'UNDO'})
+          return of(boardsActions.updateBoardFailure({error}))
+        }),
       );
     }),
   ));
@@ -179,5 +201,7 @@ export class BoardsEffects {
     private auth: AngularFireAuth,
     private boardsStoreFacade: BoardsStoreFacade,
     private db: AngularFirestore,
-    private modalService: ModalService) {}
+    private modalService: ModalService,
+    private store: Store) {
+  }
 }

@@ -1,10 +1,15 @@
-import {createReducer, on} from '@ngrx/store';
+import {on} from '@ngrx/store';
+import {initialUndoRedoState, undoRedo, UndoRedoState} from 'ngrx-wieder';
 import {Board, Task} from '../interfaces';
 import * as boardActions from './boards.actions';
 import {cloneDeep} from 'lodash';
 import * as authActions from '../../../auth/core/store/auth.action';
 
-export interface State {
+const { createUndoRedoReducer } = undoRedo({
+  allowedActionTypes: ['[Task Preview] Update Task']
+});
+
+export interface State extends UndoRedoState {
   boards: Board[];
   tasks: { [key: string]: Task[] };
   currentBoardId?: string;
@@ -20,10 +25,11 @@ export const initialState: State = {
   isLoaded: false,
   isLoadingBoards: false,
   isSavingBoard: false,
-  isSavingTask: false
+  isSavingTask: false,
+  ...initialUndoRedoState
 };
 
-export const reducer = createReducer(
+export const reducer = createUndoRedoReducer(
   initialState,
   on(boardActions.addNewBoard, (state) => ({...state, isSavingBoard: true, isBoardSaved: false})),
   on(boardActions.addNewBoardSuccess, (state, action) => ({
@@ -83,6 +89,12 @@ export const reducer = createReducer(
     })],
     currentBoard: {...action.board},
   })),
+  on(boardActions.updateTask, (state, action) => {
+    const tasks = cloneDeep(state.tasks);
+    const index = tasks[state.currentBoardId!].findIndex(task => task.id === action.task.id);
+    tasks[state.currentBoardId!][index] = action.task;
+    return {...state, tasks};
+  }),
   on(boardActions.updateTaskSuccess, (state, action) => {
     const tasks = cloneDeep(state.tasks);
     const index = tasks[state.currentBoardId!].findIndex(task => task.id === action.task.id);
@@ -90,6 +102,7 @@ export const reducer = createReducer(
     return {...state, tasks};
   }),
   on(authActions.logout, (state) => ({
+    ...state,
     boards: [],
     tasks: {},
     isLoaded: false,

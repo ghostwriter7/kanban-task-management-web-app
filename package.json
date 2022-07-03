@@ -24,7 +24,9 @@
     "@ngrx/effects": "^13.2.0",
     "@ngrx/store": "^13.2.0",
     "firebase": "^9.8.3",
+    "immer": "^9.0.15",
     "lodash": "^4.17.21",
+    "ngrx-wieder": "^8.0.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
