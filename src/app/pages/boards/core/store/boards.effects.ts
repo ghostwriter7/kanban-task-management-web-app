@@ -197,12 +197,9 @@ export class BoardsEffects {
   updateTask$ = createEffect(() => this.actions$.pipe(
     ofType(boardsActions.updateTask),
     withLatestFrom(this.boardsStoreFacade.currentBoard$),
-    switchMap(([{task, closeModal}, board]) => {
+    switchMap(([{task}, board]) => {
       return from(this.db.doc(`boards/${board!.id}/tasks/${task.id}`).update(task)).pipe(
         map(() => {
-          if (closeModal) {
-            this.modalService.close();
-          }
           return boardsActions.updateTaskSuccess({task})
         }),
         catchError(error => {

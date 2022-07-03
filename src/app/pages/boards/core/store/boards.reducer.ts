@@ -99,18 +99,16 @@ export const reducer = createUndoRedoReducer(
     tasks[state.currentBoardId!].sort((a,b) => a.seqNumber - b.seqNumber);
     return { ...state, tasks }
   }),
-  on(boardActions.updateTask, (state, action) => {
-    const tasks = cloneDeep(state.tasks);
-    const index = tasks[state.currentBoardId!].findIndex(task => task.id === action.task.id);
-    tasks[state.currentBoardId!][index] = action.task;
-    return {...state, tasks};
+  on(boardActions.updateTask, (state) => {
+    return {...state, isSavingTask: true};
   }),
   on(boardActions.updateTaskSuccess, (state, action) => {
     const tasks = cloneDeep(state.tasks);
     const index = tasks[state.currentBoardId!].findIndex(task => task.id === action.task.id);
     tasks[state.currentBoardId!][index] = action.task;
-    return {...state, tasks};
+    return {...state, isSavingTask: false, tasks};
   }),
+  on(boardActions.updateTaskFailure, (state) => ({ ...state, isSavingTask: false})),
   on(authActions.logout, (state) => ({
     ...state,
     boards: [],

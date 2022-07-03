@@ -91,8 +91,8 @@ export class BoardsStoreFacade {
     });
   }
 
-  updateTask(task: Task, closeModal?: boolean): void {
-    this.store.dispatch(boardActions.updateTask({task, closeModal}));
+  updateTask(task: Task): void {
+    this.store.dispatch(boardActions.updateTask({task}));
   }
 
   private updateIndexes(column: Task[], updatedTasks: { id: string, task: Task }[]): void {
